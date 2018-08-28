@@ -19,4 +19,8 @@ $api->version('v2', function ($api) {
     $api->group(['middleware' => 'api.auth'], function ($api) {
         
     });
+
+    $api->group(['namespace' => 'App\Http\Controllers', 'middleware' => 'api.throttle', 'limit' => 20, 'expires' => 1], function ($api) {
+        $api->get('game/search/{model}/{method}/{action}/{param?}', 'Game\SearchController@index');
+    });
 });
