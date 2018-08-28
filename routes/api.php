@@ -2,8 +2,6 @@
 
 use Illuminate\Http\Request;
 
-$api = app('Dingo\Api\Routing\Router');
-
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -15,8 +13,6 @@ $api = app('Dingo\Api\Routing\Router');
 |
 */
 
-$api->version('v2', function ($api) {
-    $api->group(['middleware' => 'api.auth'], function ($api) {
-        
-    });
+Route::middleware('auth:api')->get('/user', function (Request $request) {
+    return $request->user();
 });
