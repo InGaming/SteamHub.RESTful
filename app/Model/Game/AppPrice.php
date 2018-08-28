@@ -7,4 +7,5 @@ use Illuminate\Database\Eloquent\Model;
 class AppPrice extends Model
 {
     protected $table = 'AppsPrices';
+    public $timestamps = false;
 }
