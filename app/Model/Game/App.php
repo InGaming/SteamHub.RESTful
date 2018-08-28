@@ -21,6 +21,6 @@ class App extends Model
 
     public function AppInfo()
     {
-        return $this->hasMany('App\Model\Game\AppInFo', 'AppID', 'AppID');
+        return $this->hasMany('App\Model\Game\AppInfo', 'AppID', 'AppID');
     }
 }
