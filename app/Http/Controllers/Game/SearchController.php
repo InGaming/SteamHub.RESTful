@@ -38,6 +38,17 @@ class SearchController extends Controller
                                 
                             case 'latest':
                                 return App::latest('LastUpdated')->first();
+
+                            case 'view':
+                                return App::with([
+                                'AppType',
+                                'AppPrice' => function ($query) {
+                                    $query->where('Country', 'China')->orderBy('LastUpdated', 'desc');
+                                },
+                                'AppInfo' => function ($query) {
+                                    $query->where('key', 116);
+                                }])
+                                ->where('Appid', $param)->firstOrFail();
                         }
                     
                     case 'update_queue':
