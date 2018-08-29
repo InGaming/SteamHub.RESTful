@@ -43,7 +43,7 @@ class SearchController extends Controller
                     case 'update_queue':
                         switch ($action) {
                             case 'all':
-                                return AppUpdateQueue::orderBy('LastUpdated', 'desc')->paginate($param);
+                                return AppUpdateQueue::orderBy('ID', 'desc')->paginate($param);
 
                             case 'count':
                                 return AppUpdateQueue::count();
