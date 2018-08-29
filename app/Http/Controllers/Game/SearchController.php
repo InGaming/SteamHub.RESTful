@@ -52,10 +52,10 @@ class SearchController extends Controller
                                                 return AppPrice::where('AppID', $param)->where('Country', 'United Kingdom')->orderBy('LastUpdated', 'desc')->get();
 
                                             case 'ru':
-                                                return AppPrice::where('AppID', $param)->where('Country', 'Russia')->get();
+                                                return AppPrice::where('AppID', $param)->where('Country', 'Russia')->orderBy('LastUpdated', 'desc')->get();
 
                                             default:
-                                                return AppPrice::where('AppID', $param)->get();
+                                                return AppPrice::where('AppID', $param)->orderBy('LastUpdated', 'desc')->get();
                                         }
                                         break;
                                 }
