@@ -70,7 +70,7 @@
 <body>
     <div class="content">
         <div class="title m-b-md">
-            InBuff API
+            SteamHub API
         </div>
     </div>
 </body>
