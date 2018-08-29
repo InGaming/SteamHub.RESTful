@@ -14,7 +14,7 @@ use App\Model\Game\AppUpdateQueue;
 
 class SearchController extends Controller
 {
-    public function index ($model, $method, $action, $param = null) {
+    public function index ($model, $method, $action, $param = null, $filter = null) {
         switch ($model) {
             case 'app':
                 switch ($method) {
@@ -31,7 +31,6 @@ class SearchController extends Controller
                                 }])
                                 ->orderBy('LastUpdated', 'desc')
                                 ->paginate($param);
-                                break;
                             
                             case 'count':
                                 return App::count();
@@ -40,15 +39,26 @@ class SearchController extends Controller
                                 return App::latest('LastUpdated')->first();
 
                             case 'view':
-                                return App::with([
-                                'AppType',
-                                'AppPrice' => function ($query) {
-                                    $query->where('Country', 'China')->orderBy('LastUpdated', 'desc');
-                                },
-                                'AppInfo' => function ($query) {
-                                    $query->where('key', 116);
-                                }])
-                                ->where('Appid', $param)->firstOrFail();
+                                switch ($filter) {
+                                    case 'price':
+                                        switch (Request::get('country')) {
+                                            case 'cn':
+                                                return AppPrice::where('AppID', $param)->where('Country', 'China')->get();
+                                            
+                                            case 'us':
+                                                return AppPrice::where('AppID', $param)->where('Country', 'United States')->get();
+
+                                            case 'uk':
+                                                return AppPrice::where('AppID', $param)->where('Country', 'United Kingdom')->get();
+
+                                            case 'ru':
+                                                return AppPrice::where('AppID', $param)->where('Country', 'Russia')->get();
+
+                                            default:
+                                                return AppPrice::where('AppID', $param)->get();
+                                        }
+                                        break;
+                                }
                         }
                     
                     case 'update_queue':
@@ -58,7 +68,6 @@ class SearchController extends Controller
 
                             case 'count':
                                 return AppUpdateQueue::count();
-                                break;
                             
                             case 'latest':
                                 return AppUpdateQueue::orderBy('ID', 'desc')->firstOrFail();
