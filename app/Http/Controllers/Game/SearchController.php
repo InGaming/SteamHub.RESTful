@@ -43,15 +43,35 @@ class SearchController extends Controller
                                     case 'price':
                                         switch (Request::get('country')) {
                                             case 'cn':
+                                                switch (Request::get('math')) {
+                                                    case 'min':
+                                                        return AppPrice::where('AppID', $param)->where('Country', 'China')->min('PriceFinal');
+
+                                                }
                                                 return AppPrice::where('AppID', $param)->where('Country', 'China')->orderBy('LastUpdated', 'desc')->get();
                                             
                                             case 'us':
+                                                switch (Request::get('math')) {
+                                                    case 'min':
+                                                        return AppPrice::where('AppID', $param)->where('Country', 'United States')->min('PriceFinal');
+
+                                                }
                                                 return AppPrice::where('AppID', $param)->where('Country', 'United States')->orderBy('LastUpdated', 'desc')->get();
 
                                             case 'uk':
+                                                switch (Request::get('math')) {
+                                                    case 'min':
+                                                        return AppPrice::where('AppID', $param)->where('Country', 'United Kingdom')->min('PriceFinal');
+
+                                                }
                                                 return AppPrice::where('AppID', $param)->where('Country', 'United Kingdom')->orderBy('LastUpdated', 'desc')->get();
 
                                             case 'ru':
+                                                switch (Request::get('math')) {
+                                                    case 'min':
+                                                        return AppPrice::where('AppID', $param)->where('Country', 'Russia')->min('PriceFinal');
+
+                                                }
                                                 return AppPrice::where('AppID', $param)->where('Country', 'Russia')->orderBy('LastUpdated', 'desc')->get();
 
                                             default:
