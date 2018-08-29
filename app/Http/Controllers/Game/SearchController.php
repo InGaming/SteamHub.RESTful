@@ -43,13 +43,13 @@ class SearchController extends Controller
                                     case 'price':
                                         switch (Request::get('country')) {
                                             case 'cn':
-                                                return AppPrice::where('AppID', $param)->where('Country', 'China')->get();
+                                                return AppPrice::where('AppID', $param)->where('Country', 'China')->orderBy('LastUpdated', 'desc')->get();
                                             
                                             case 'us':
-                                                return AppPrice::where('AppID', $param)->where('Country', 'United States')->get();
+                                                return AppPrice::where('AppID', $param)->where('Country', 'United States')->orderBy('LastUpdated', 'desc')->get();
 
                                             case 'uk':
-                                                return AppPrice::where('AppID', $param)->where('Country', 'United Kingdom')->get();
+                                                return AppPrice::where('AppID', $param)->where('Country', 'United Kingdom')->orderBy('LastUpdated', 'desc')->get();
 
                                             case 'ru':
                                                 return AppPrice::where('AppID', $param)->where('Country', 'Russia')->get();
