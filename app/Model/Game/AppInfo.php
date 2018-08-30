@@ -8,4 +8,14 @@ class AppInfo extends Model
 {
     protected $table = 'AppsInfo';
     public $timestamps = false;
+
+    public function App()
+    {
+        return $this->belongsTo('App\Model\Game\App', 'AppID', 'AppID');
+    }
+
+    public function AppPrice()
+    {
+        return $this->hasManyThrough('App\Model\Game\AppPrice', 'App\Model\Game\App', 'AppID', 'AppID', 'AppID', 'AppID');
+    }
 }
