@@ -77,8 +77,10 @@ class SearchController extends Controller
                                             default:
                                                 return AppPrice::where('AppID', $param)->orderBy('LastUpdated', 'desc')->get();
                                         }
-                                        break;
+                                    
+                                    
                                 }
+                            
                         }
                     
                     case 'update_queue':
