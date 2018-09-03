@@ -28,6 +28,7 @@ class SearchController extends Controller
                                 },
                                 'AppInfo' => function ($query) {
                                     $query->where('key', 116);
+                                    $query->orWhere('key', 117);
                                 }])
                                 ->orderBy('LastUpdated', 'desc')
                                 ->paginate($param);
