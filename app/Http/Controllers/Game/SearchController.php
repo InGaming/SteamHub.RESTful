@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Game;
 
 use Request;
+use Cache;
 use App\Http\Controllers\Controller;
 
 use App\Model\Game\App as App;
@@ -21,17 +22,19 @@ class SearchController extends Controller
                     case 'list':
                         switch ($action) {
                             case 'all':
-                                return App::with([
-                                'AppType',
-                                'AppPrice' => function ($query) {
-                                    $query->where('Country', 'China')->orderBy('LastUpdated', 'desc');
-                                },
-                                'AppInfo' => function ($query) {
-                                    $query->where('key', 116);
-                                    $query->orWhere('key', 117);
-                                }])
-                                ->orderBy('LastUpdated', 'desc')
-                                ->paginate($param);
+                                return Cache::remember('AppListPage=' . Request::get('page') . '&paginate=' . $param, 5, function () use ($param) {
+                                    return App::with([
+                                                'AppType',
+                                                'AppPrice' => function ($query) {
+                                                    $query->where('Country', 'China')->orderBy('LastUpdated', 'desc');
+                                                },
+                                                'AppInfo' => function ($query) {
+                                                    $query->where('key', 116);
+                                                    $query->orWhere('key', 117);
+                                                }])
+                                            ->orderBy('LastUpdated', 'desc')
+                                            ->paginate($param);
+                                });
                             
                             case 'count':
                                 return App::count();
