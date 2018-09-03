@@ -37,10 +37,14 @@ class SearchController extends Controller
                                 });
                             
                             case 'count':
-                                return App::count();
-                                
+                                return Cache::remember('AppListCount', 5, function () {
+                                    return App::count();
+                                }
+
                             case 'latest':
-                                return App::latest('LastUpdated')->first();
+                                return Cache::remember('AppListLastUpdated', 5, function () {
+                                    return App::latest('LastUpdated')->firstOrFail();
+                                }
 
                             case 'view':
                                 switch ($filter) {
@@ -90,13 +94,20 @@ class SearchController extends Controller
                     case 'update_queue':
                         switch ($action) {
                             case 'all':
-                                return AppUpdateQueue::orderBy('ID', 'desc')->paginate($param);
-
-                            case 'count':
-                                return AppUpdateQueue::count();
+                                return Cache::remember('AppUpdateQueueListPage=' . Request::get('page') . '&paginate=' . $param, 5, function () use ($param) {
+                                    return AppUpdateQueue::orderBy('ID', 'desc')->paginate($param);
+                                }
                             
+                            case 'count':
+                                return Cache::remember('AppUpdateQueueCount', 5, function () {
+                                    return AppUpdateQueue::count();
+                                }
+                                
                             case 'latest':
-                                return AppUpdateQueue::orderBy('ID', 'desc')->firstOrFail();
+                                return Cache::remember('AppUpdateQueueLatest', 5, function () {
+                                    return AppUpdateQueue::orderBy('ID', 'desc')->firstOrFail();
+                                }
+                                
                         }
                         break;
                 }
