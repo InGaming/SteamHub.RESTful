@@ -32,6 +32,7 @@ class SearchController extends Controller
                                                     $query->where('key', 116);
                                                     $query->orWhere('key', 117);
                                                 }])
+                                            ->whereNotIn('AppType', [0])
                                             ->orderBy('LastUpdated', 'desc')
                                             ->paginate($param);
                                 });
