@@ -24,7 +24,7 @@ $api->version('v2', function ($api) {
         $api->get('game/search/{model}/{method}/{action}/{param?}/{filter?}', 'Game\SearchController@index');
 
         $api->group(['namespace' => 'V2\App', 'prefix' => 'v2/apps'], function ($api) {
-            $api->resource('/', 'AppController');
+            $api->resource('lists', 'ListController');
             $api->resource('infos', 'InfoController');
             $api->resource('prices', 'PriceController');
             $api->resource('details', 'DetailController');
