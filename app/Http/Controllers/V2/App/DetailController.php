@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\V2\App;
 
 use Cache;
+use Request;
 use GuzzleHttp\Client;
 use App\Http\Controllers\Controller;
 

@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\V2\App;
 
-use Request;
 use Cache;
+use Request;
 use App\Model\Game\AppPrice;
 use App\Http\Controllers\Controller;
 
