@@ -18,4 +18,9 @@ class AppInfo extends Model
     {
         return $this->hasManyThrough('App\Model\Game\AppPrice', 'App\Model\Game\App', 'AppID', 'AppID', 'AppID', 'AppID');
     }
+
+    public function KeyName()
+    {
+        return $this->hasOne('App\Model\Game\KeyName', 'ID', 'Key');
+    }
 }
