@@ -17,7 +17,7 @@ class PriceController extends Controller
             });
         }
         return Cache::remember(Request::fullUrl(), 360, function () use ($id) {
-            return AppPrice::where('AppID', $id)->where('Country', 'China')->orderBy('LastUpdated', 'desc')->get();
+            return AppPrice::where('AppID', $id)->where('Country', 'China')->get();
         });
     }
 }
