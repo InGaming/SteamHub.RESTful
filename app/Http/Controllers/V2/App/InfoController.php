@@ -11,7 +11,7 @@ class InfoController extends Controller
 {
     public function show($id) {
         $requestQuery = Request::query();
-        if (array_key_exists('key', $requestQuery))
+        if (array_key_exists('key', $requestQuery) && !is_null($requestQuery['key']))
             $key = explode(",",$requestQuery['key']); 
         else
             $key = NULL;
