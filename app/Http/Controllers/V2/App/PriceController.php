@@ -12,7 +12,7 @@ class PriceController extends Controller
     public function show($id) {
         $count = Request::get('count');
         if ($count == 'min') {
-            return Cache::remember('AppPriceMinID=' . $id, 360, function () use ($id) {
+            return Cache::remember(Request::fullUrl(), function () use ($id) {
                 return AppPrice::where('AppID', $id)->where('Country', 'China')->min('PriceFinal');
             });
         }

@@ -12,7 +12,7 @@ class ListController extends Controller
     public function index() {
         $param = Request::get('param');
         $page = Request::get('page');
-        return Cache::remember('AppListPage=' . $page . '&paginate=' . $param, 5, function () use ($param) {
+        return Cache::remember(Request::fullUrl(), 5, function () use ($param) {
             return App::with([
                         'AppType',
                         'AppPrice' => function ($query) {
