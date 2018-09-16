@@ -29,7 +29,7 @@ class ListController extends Controller
     }
 
     public function show($id) {
-        return Cache::remember(Request::fullUrl(), 360, function () use ($id) {
+        return Cache::remember(Request::fullUrl(), 5, function () use ($id) {
             return App::with([
                 'AppType',
                 'AppPrice' => function ($query) {
