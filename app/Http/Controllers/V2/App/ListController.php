@@ -29,11 +29,11 @@ class ListController extends Controller
     }
 
     public function show($id) {
-        return Cache::remember('AppID=' . $id, 30, function () use ($id) {
+        return Cache::remember(Request::fullUrl(), 360, function () use ($id) {
             return App::with([
                 'AppType',
                 'AppPrice' => function ($query) {
-                    $query->where('Country', 'China')->orderBy('LastUpdated', 'desc');
+                    $query->where('Country', 'China');
                 },
                 'AppInfo' => function ($query) {
                     $query->where('key', 116);
