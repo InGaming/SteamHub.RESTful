@@ -12,11 +12,18 @@ class ListController extends Controller
     public function index() {
         $param = Request::get('param');
         $page = Request::get('page');
-        return Cache::remember(Request::fullUrl(), 5, function () use ($param) {
+        $cc = Request::get('cc');
+        if ($cc === 'cn') $country = 'cn';
+        else if ($cc === 'us') $country = 'us';
+        else $country = 'cn';
+        return Cache::remember(Request::fullUrl(), 5, function () use ($param,  $country) {
             return App::with([
                         'AppType',
-                        'AppPrice' => function ($query) {
-                            $query->where('Country', 'China')->orderBy('LastUpdated', 'desc');
+                        'AppPrice' => function ($query) use ($country) {
+                            if ($country === 'cn')
+                                $query->where('Country', 'China')->orderBy('LastUpdated', 'desc');
+                            else if ($country === 'us')
+                                $query->where('Country', 'United States')->orderBy('LastUpdated', 'desc');
                         },
                         'AppInfo' => function ($query) {
                             $query->where('key', 116);
@@ -29,11 +36,18 @@ class ListController extends Controller
     }
 
     public function show($id) {
-        return Cache::remember(Request::fullUrl(), 5, function () use ($id) {
+        $cc = Request::get('cc');
+        if ($cc === 'cn') $country = 'cn';
+        else if ($cc === 'us') $country = 'us';
+        else $country = 'cn';
+        return Cache::remember(Request::fullUrl(), 5, function () use ($id, $country) {
             return App::with([
                 'AppType',
-                'AppPrice' => function ($query) {
-                    $query->where('Country', 'China');
+                'AppPrice' => function ($query) use ($country) {
+                    if ($country === 'cn')
+                        $query->where('Country', 'China')->orderBy('LastUpdated', 'desc');
+                    else if ($country === 'us')
+                        $query->where('Country', 'United States')->orderBy('LastUpdated', 'desc');
                 },
                 'AppInfo' => function ($query) {
                     $query->where('key', 116);
