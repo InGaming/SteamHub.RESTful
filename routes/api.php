@@ -29,6 +29,7 @@ $api->version('v2', function ($api) {
             $api->resource('prices', 'PriceController');
             $api->resource('details', 'DetailController');
             $api->resource('search', 'SearchController');
+            $api->resource('trending', 'TrendingController');
         });    
     });
 
