@@ -11,8 +11,8 @@ class TrendingController extends Controller
 {
     public function index ()
     {
-        return Cache::remember(Request::fullUrl(), 1, function () {
-            return Trending::first();
+        return Cache::remember(Request::fullUrl(), 0, function () {
+            return Trending::latest('LastUpdated')->first();
         });
     }
 }
