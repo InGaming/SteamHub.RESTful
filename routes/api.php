@@ -30,6 +30,7 @@ $api->version('v2', function ($api) {
             $api->resource('details', 'DetailController');
             $api->resource('search', 'SearchController');
             $api->resource('trending', 'TrendingController');
+            $api->resource('topsellers', 'TopSellerController');
         });    
     });
 
