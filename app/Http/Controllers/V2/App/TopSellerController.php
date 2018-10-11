@@ -14,7 +14,7 @@ class TopSellerController extends Controller
         $cc = Request::get('cc');
         if ($cc == 'cn') { $country = 'China'; }
         if ($cc == 'us') { $country = 'United States'; }
-        return Cache::remember(Request::fullUrl(), 0, function () use ($country) {
+        return Cache::remember(Request::fullUrl(), 60, function () use ($country) {
             $firstData = TopSeller::where('Country', $country)->latest('LastUpdated')->first();
             return response()->json($firstData->Data);
         });
