@@ -11,8 +11,9 @@ class NewsController extends Controller
 {
     public function index ()
     {
-        return Cache::remember(Request::fullUrl(), 2, function () {
-            return News::latest('LastUpdated')->paginate(Request::get('size'));
+        return Cache::remember(Request::fullUrl(), 0, function () {
+            if (Request::get('type')) return News::where('Type', Request::get('type'))->latest('LastUpdated')->paginate(Request::get('size'));
+            else return News::latest('LastUpdated')->paginate(Request::get('size'));
         });
     }
 }
