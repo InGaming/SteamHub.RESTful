@@ -20,7 +20,7 @@ class NewsController extends Controller
     public function show($id)
     {
         return Cache::remember(Request::fullUrl(), 10, function () use ($id) {
-            return News::where('Title', $id)->first();
+            return News::with(['NewsArticles'])->where('Title', $id)->first();
         });
     }
 }
