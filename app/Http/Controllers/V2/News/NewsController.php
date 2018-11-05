@@ -17,10 +17,10 @@ class NewsController extends Controller
         });
     }
 
-    public function show($list)
+    public function show($id)
     {
-        return Cache::remember(Request::fullUrl(), 10, function () {
-            return News::where('Title', $list)->latest('LastUpdated');
+        return Cache::remember(Request::fullUrl(), 10, function () use ($id) {
+            return News::where('Title', $id)->latest('LastUpdated');
         });
     }
 }
