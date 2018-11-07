@@ -17,7 +17,7 @@ class TrendingController extends Controller
 
             // 
             if (Request::get('type') == 'total' && Request::get('count') == 'max' && Request::get('date') == 'today') {
-                return Trending::whereDate('Created', Carbon::today())->orderBy('Now', 'desc')->unique('AppID')->all();
+                return Trending::whereDate('Created', Carbon::today())->orderBy('Total', 'desc')->unique('AppID')->all();
             }
         });
     }
