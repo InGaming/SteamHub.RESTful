@@ -26,7 +26,7 @@ class TrendingController extends Controller
     {
         return Cache::remember(Request::fullUrl(), 5, function () use ($id) {
             if (Request::get('type') == 'rank' && Request::get('date') == 'today') {
-                $appList = Trending::whereDate('Created', Carbon::today())->orderBy('Total', 'desc')->get()->unique('AppID')->values()->all();
+                $appList = Trending::whereDate('Created', Carbon::today())->orderBy('Total', 'desc')->get()->unique('AppID')->values();
                 return $appList->map(function ($item, $key) use ($id) {
                     if ($item['AppID'] == $id) return $key;
                 })->filter()->first();
