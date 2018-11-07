@@ -10,7 +10,7 @@ use App\Model\Game\Trending;
 
 class TrendingController extends Controller
 {
-    public function index ()
+    public function index()
     {
         return Cache::remember(Request::fullUrl(), 5, function () {
             // 
@@ -20,5 +20,12 @@ class TrendingController extends Controller
                 return Trending::latest('Created')->orderBy('Now', 'desc')->limit(100)->get();
             }
         });
+    }
+
+    public function id($id)
+    {
+        return Cache::remember(Request::fullUrl(), 5, function () use ($id) {
+            return Trending::where('AppID', $id)->orderBy('Now', 'asc')->get();
+        }
     }
 }
