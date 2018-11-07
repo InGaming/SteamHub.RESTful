@@ -22,7 +22,7 @@ class TrendingController extends Controller
         });
     }
 
-    public function id($id)
+    public function show($id)
     {
         return Cache::remember(Request::fullUrl(), 5, function () use ($id) {
             return Trending::where('AppID', $id)->orderBy('Now', 'asc')->get();
