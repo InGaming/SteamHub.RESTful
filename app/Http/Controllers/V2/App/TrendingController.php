@@ -25,6 +25,10 @@ class TrendingController extends Controller
     public function show($id)
     {
         return Cache::remember(Request::fullUrl(), 5, function () use ($id) {
+            if (Request::get('type') == 'rank' && Request::get('date') == 'today') {
+                $appRankIndexList = Trending::whereDate('Created', Carbon::today())->orderBy('Total', 'desc')->get()->unique('AppID')->values()->all()->flip();
+                return $appRankIndexList->pluck($id)->all();
+            }
             return Trending::where('AppID', $id)->orderBy('Now', 'asc')->get();
         });
     }
