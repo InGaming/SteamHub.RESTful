@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\V2\App;
 
 use Cache;
-use Carbon;
 use Request;
+use Carbon\Carbon;
 use App\Http\Controllers\Controller;
 use App\Model\Game\Trending;
 
