@@ -12,8 +12,8 @@ class TrendingController extends Controller
     public function index ()
     {
         return Cache::remember(Request::fullUrl(), 1, function () {
-            $firstData = Trending::latest('LastUpdated')->first();
-            return response()->json($firstData->Data);
+            $data = Trending::latest('LastUpdated')->limit(100);
+            return $data;
         });
     }
 }
