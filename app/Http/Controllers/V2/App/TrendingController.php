@@ -13,23 +13,30 @@ class TrendingController extends Controller
     public function index()
     {
         return Cache::remember(Request::fullUrl(), 5, function () {
-            // 
-            if (Request::get('type') == 'total' && Request::get('count') == 'max' && Request::get('date') == 'today') {
-                return Trending::whereDate('Created', Carbon::today())->orderBy('Total', 'desc')->get()->unique('AppID')->values()->all();
-            } else {
-                return Trending::latest('Created')->orderBy('Now', 'desc')->limit(100)->get();
+            if (Request::get('type') == 'total' && Request::get('count') == 'max' && Request::get('date')) {
+                if (Request::get('date') == 'today') {
+                    return Trending::whereDate('Created', Carbon::today())->orderBy('Total', 'desc')->get()->unique('AppID')->values()->all();
+                }
+                if (Request::get('date') == 'week') {
+                    return Trending::whereBetween('Created', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])->orderBy('Total', 'desc')->get()->unique('AppID')->values()->all();
+                }
             }
+            return Trending::latest('Created')->orderBy('Now', 'desc')->limit(100)->get();
         });
     }
 
     public function show($id)
     {
         return Cache::remember(Request::fullUrl(), 5, function () use ($id) {
-            if (Request::get('type') == 'rank' && Request::get('date') == 'today') {
-                $appList = Trending::whereDate('Created', Carbon::today())->orderBy('Total', 'desc')->get()->unique('AppID')->values();
+            if (Request::get('type') == 'rank' && Request::get('date')) {
+                if (Request::get('date') == 'today') {
+                    $appList = Trending::whereDate('Created', Carbon::today())->orderBy('Total', 'desc')->get()->unique('AppID')->values();
+                } else if (Request::get('date') == 'week') {
+                    $appList = Trending::whereBetween('Created', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])->orderBy('Total', 'desc')->get()->unique('AppID')->values();
+                }
                 return $appList->map(function ($item, $key) use ($id) {
                     if ($item['AppID'] == $id) return $key;
-                })->filter()->first();
+                })->filter()->first() + 1;
             }
             return Trending::where('AppID', $id)->orderBy('Now', 'asc')->get();
         });
