@@ -14,23 +14,25 @@ class TagController extends Controller
 {
     public function index(Request $request)
     {
-      $query = AppTag::query();
-      $queryName = $query->distinct()->pluck('Tag');
-      Validator::make($request->all(), [
-        'name.*' => [
-          'required',
-          Rule::in($queryName),
-        ],
-        'math' => [
-          'required',
-          Rule::in(['count']),
-        ],
-      ])->validate();
-      
-      foreach ($request->name as $field) {
-        $data[$field] = $query->orWhere('Tag', $field)->count();
-      }
-      return $data;
+      return Cache::remember($request->fullUrl(), 30, function () use ($request) {
+        $query = AppTag::query();
+        $queryName = $query->distinct()->pluck('Tag');
+        Validator::make($request->all(), [
+          'name.*' => [
+            'required',
+            Rule::in($queryName),
+          ],
+          'math' => [
+            'required',
+            Rule::in(['count']),
+          ],
+        ])->validate();
+        
+        foreach ($request->name as $field) {
+          $data[$field] = $query->orWhere('Tag', $field)->count();
+        }
+        return $data;
+      });
     }
 
     public function show($id)
