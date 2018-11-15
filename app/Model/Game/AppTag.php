@@ -8,4 +8,9 @@ class AppTag extends Model
 {
     protected $table = 'AppsTags';
     public $timestamps = false;
+
+    public function reviews()
+    {
+        return $this->belongsTo('App\Model\Game\AppReview', 'AppID', 'AppID');
+    }
 }

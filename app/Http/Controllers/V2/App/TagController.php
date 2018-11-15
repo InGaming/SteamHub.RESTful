@@ -9,18 +9,23 @@ use Illuminate\Validation\Rule;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Model\Game\AppTag;
+use App\Model\Game\AppReview;
 
 class TagController extends Controller
 {
     public function index(Request $request)
     {
-      return Cache::remember($request->fullUrl(), 30, function () use ($request) {
-        $query = AppTag::query();
-        $queryName = $query->distinct()->pluck('Tag');
+      return Cache::remember($request->fullUrl(), 360, function () use ($request) {
+        $queryTag = AppTag::query();
+        $queryReview = AppReview::query();
+        $queryTagName = $queryTag->distinct()->pluck('Tag');
         Validator::make($request->all(), [
           'name.*' => [
             'required',
-            Rule::in($queryName),
+            Rule::in($queryTagName),
+          ],
+          'type' => [
+            Rule::in(['reviews']),
           ],
           'math' => [
             'required',
@@ -29,7 +34,12 @@ class TagController extends Controller
         ])->validate();
         
         foreach ($request->name as $field) {
-          $data[$field] = $query->orWhere('Tag', $field)->count();
+          if ($request->type === 'reviews') {
+            $appid = $queryTag->orWhere('Tag', $field)->pluck('AppID');
+            $data[$field] = $queryReview->orWhereIn('AppID', $appid)->with('tags')->count();
+          } else {
+            $data[$field] = $queryTag->orWhere('Tag', $field)->count();
+          }
         }
         return $data;
       });
