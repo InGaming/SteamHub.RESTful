@@ -16,7 +16,7 @@ class ListController extends Controller
         if ($cc === 'cn') $country = 'cn';
         else if ($cc === 'us') $country = 'us';
         else $country = 'cn';
-        return Cache::remember(Request::fullUrl(), 0, function () use ($param,  $country) {
+        return Cache::remember(Request::fullUrl(), 5, function () use ($param,  $country) {
             if (Request::get('math') === 'count') {
                 return App::count();
             }
