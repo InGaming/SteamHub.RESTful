@@ -32,6 +32,7 @@ $api->version('v2', function ($api) {
             $api->resource('trending', 'TrendingController');
             $api->resource('topsellers', 'TopSellerController');
             $api->resource('tags', 'TagController');
+            $api->resource('reviews', 'ReviewController');
         }); 
 
         $api->group(['namespace' => 'V2\News', 'prefix' => 'v2/news'], function ($api) {
