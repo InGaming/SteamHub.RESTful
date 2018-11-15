@@ -11,17 +11,24 @@ use App\Http\Controllers\Controller;
 class ReviewController extends Controller 
 {
   public function index() {
-    return Cache::remember(Request::fullUrl(), 360, function () {
+    return Cache::remember(Request::fullUrl(), 0, function () {
         if (Request::get('math') === 'count') {
             return AppReview::count();
         }
         if (Request::get('type') === 'top') {
           $appid = AppReview::where('ReviewTitle', '好评如潮')->distinct()->pluck('AppID');
            
-          return App::with(['AppPrice', 'AppReview'])
-              ->whereNotNull('ShortDescription')
-              ->whereIn('AppID', $appid)->orderBy('LastUpdated', 'desc')
-              ->paginate(Request::get('param'));
+          return App::with([
+            'AppPrice' => function ($query) {
+                  $query->where('Country', 'China')->orderBy('LastUpdated', 'desc');
+            },
+            'AppReview' => function ($query) {
+              $query->orderBy('LastUpdated', 'desc');
+            },
+          ])
+          ->whereNotNull('ShortDescription')
+          ->whereIn('AppID', $appid)->orderBy('LastUpdated', 'desc')
+          ->paginate(Request::get('param'));
         }
     });
   }
