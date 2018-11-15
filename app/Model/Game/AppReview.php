@@ -13,4 +13,14 @@ class AppReview extends Model
     {
         return $this->hasMany('App\Model\Game\AppTag', 'AppID', 'AppID');
     }
+
+    public function App()
+    {
+        return $this->belongsTo('App\Model\Game\App', 'AppID', 'AppID');
+    }
+
+    public function AppPrice()
+    {
+        return $this->belongsTo('App\Model\Game\AppPrice', 'AppID', 'AppID');
+    }
 }
