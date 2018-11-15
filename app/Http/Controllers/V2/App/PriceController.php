@@ -10,11 +10,11 @@ use App\Http\Controllers\Controller;
 class PriceController extends Controller
 {
     public function index() {
-        if (Request::get('math') === 'count') {
-            return Cache::remember(Request::fullUrl(), 360, function () {
+        return Cache::remember(Request::fullUrl(), 360, function () {
+            if (Request::get('math') === 'count') {
                 return AppPrice::count();
-            });
-        }
+            }
+        });
     }
 
     public function show($id) {
