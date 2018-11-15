@@ -9,6 +9,14 @@ use App\Http\Controllers\Controller;
 
 class PriceController extends Controller
 {
+    public function index() {
+        if (Request::get('math') === 'count') {
+            return Cache::remember(Request::fullUrl(), 360, function () {
+                return AppPrice::count();
+            });
+        }
+    }
+
     public function show($id) {
         $count = Request::get('count');
         $cc = Request::get('cc');
