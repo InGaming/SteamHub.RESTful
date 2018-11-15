@@ -34,12 +34,13 @@ class TagController extends Controller
         ])->validate();
         
         foreach ($request->name as $field) {
-          if ($request->type === 'reviews') {
-            $appid = $queryTag->orWhere('Tag', $field)->pluck('AppID');
-            $data[$field] = $queryReview->orWhereIn('AppID', $appid)->with('tags')->count();
-          } else {
-            $data[$field] = $queryTag->orWhere('Tag', $field)->count();
-          }
+          $data[$field] = $queryTag
+          ->orWhere('Tag', $field)
+          ->when($request->type === 'reviews', function ($query) use ($queryReview) {
+            $appid = $query->pluck('AppID');
+            return $queryReview->orWhereIn('AppID', $appid)->with('tags');
+          })
+          ->count();
         }
         return $data;
       });
