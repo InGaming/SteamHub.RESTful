@@ -10,7 +10,7 @@ use App\Http\Controllers\Controller;
 class ReviewController extends Controller 
 {
   public function index() {
-    return Cache::remember(Request::fullUrl(), 0, function () {
+    return Cache::remember(Request::fullUrl(), 360, function () {
         if (Request::get('math') === 'count') {
             return AppReview::count();
         }
