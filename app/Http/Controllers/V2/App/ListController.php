@@ -12,12 +12,11 @@ class ListController extends Controller
     public function index() {
         $param = Request::get('param');
 
-        return Cache::remember(Request::fullUrl(), 0, function () use ($param) {
+        return Cache::remember(Request::fullUrl(), 5, function () use ($param) {
             if (Request::get('math') === 'count') {
                 return App::count();
             }
             return App::with([
-                'AppType',
                 'AppTag',
                 'AppReview' => function ($query) {
                     $query->orderBy('LastUpdated', 'desc');
