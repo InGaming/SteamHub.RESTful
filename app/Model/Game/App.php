@@ -28,4 +28,9 @@ class App extends Model
     {
         return $this->hasMany('App\Model\Game\AppReview', 'AppID', 'AppID');
     }
+
+    public function AppTag()
+    {
+        return $this->hasMany('App\Model\Game\AppTag', 'AppID', 'AppID');
+    }
 }
