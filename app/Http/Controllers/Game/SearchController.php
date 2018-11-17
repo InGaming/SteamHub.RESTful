@@ -57,6 +57,7 @@ class SearchController extends Controller
         foreach ($unique_price as $key=>$field) {
             $appPriceId = $appPrice
             ->where('Country', 'China')
+            ->whereNotNull('PriceInitial')
             ->whereBetween('PriceInitial', explode(',', $field))
             ->distinct()
             ->pluck('AppID');
@@ -73,7 +74,7 @@ class SearchController extends Controller
             ->whereIn('AppID', $appTagId)
             ->with([
                 'AppPrice' => function ($query) {
-                    $query->where('Country', 'China')->orderBy('LastUpdated', 'desc');
+                    $query->where('Country', 'China')->whereNotNull('PriceInitial')->orderBy('LastUpdated', 'desc');
                 }, 
                 'AppTag' => function ($query) {
                     $query->orderBy('LastUpdated', 'desc');
