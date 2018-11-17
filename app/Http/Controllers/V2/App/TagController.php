@@ -15,7 +15,7 @@ class TagController extends Controller
 {
     public function index(Request $request)
     {
-      return Cache::remember($request->fullUrl(), 360, function () use ($request) {
+      return Cache::remember($request->fullUrl(), 1440, function () use ($request) {
         $queryTag = AppTag::query();
         $queryReview = AppReview::query();
         $queryTagName = $queryTag->distinct()->pluck('Tag');

@@ -14,6 +14,11 @@ class AppTag extends Model
         return $this->belongsTo('App\Model\Game\App', 'AppID', 'AppID');
     }
     
+    public function AppPrice()
+    {
+        return $this->belongsTo('App\Model\Game\AppPrice','AppID', 'AppID');
+    }
+
     public function reviews()
     {
         return $this->belongsTo('App\Model\Game\AppReview', 'AppID', 'AppID');
