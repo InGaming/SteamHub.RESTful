@@ -19,20 +19,27 @@ class TagController extends Controller
         $queryTag = AppTag::query();
         $queryReview = AppReview::query();
         $queryTagName = $queryTag->distinct()->pluck('Tag');
+        
         Validator::make($request->all(), [
           'name.*' => [
-            'required',
+            'filled',
+            'distinct',
             Rule::in($queryTagName),
           ],
           'type' => [
-            Rule::in(['reviews']),
+            'filled',
+            Rule::in(['list', 'reviews']),
           ],
           'math' => [
-            'required',
+            'filled',
             Rule::in(['count']),
           ],
         ])->validate();
         
+        if ($request->type === 'list') {
+          return $queryTagName;
+        }
+
         foreach ($request->name as $field) {
           $data[$field] = $queryTag
           ->orWhere('Tag', $field)
