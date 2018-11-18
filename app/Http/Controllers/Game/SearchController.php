@@ -15,7 +15,7 @@ use App\Model\Game\AppTag;
 class SearchController extends Controller
 {
     public function index(Request $request) {
-        return Cache::remember($request->fullUrl(), 0, function () use ($request) {
+        return Cache::remember($request->fullUrl(), 1440, function () use ($request) {
             $type = $request->type;
             $price = $request->price;
             $price_null = $request->price_null;
