@@ -15,7 +15,7 @@ use App\Model\Game\AppTag;
 class SearchController extends Controller
 {
     public function index(Request $request) {
-        return Cache::remember($request->fullUrl(), 1440, function () use ($request) {
+        return Cache::remember($request->fullUrl(), 0, function () use ($request) {
             $type = $request->type;
             $price = $request->price;
             $query_name = $request->q[0];
@@ -26,9 +26,9 @@ class SearchController extends Controller
                 'nullable',
                 Rule::in($queryTagName),
             ],
-            'price.*' => [
+            'price' => [
                 'nullable',
-                Rule::in(['0,3000', '3000,10000', '10000,15000', '15000,300000']),
+                Rule::in(['0,3000', '3000,10000', '10000,15000', '15000,300000', '0,300000']),
             ],
             'q' => [
                 'filled',
@@ -40,10 +40,10 @@ class SearchController extends Controller
 
     public function query($query_name, $price, $type) {
         
-        if ($price[0]) {
-            $unique_price = collect($price)->unique()->values()->all();
+        if ($price) {
+            $unique_price = explode(',', $price);
         } else {
-            $unique_price = ['0, 999900'];
+            $unique_price = [0, 300000];
         }
 
         $appPrice = AppPrice::query();
@@ -59,28 +59,28 @@ class SearchController extends Controller
                 ->whereNotIn('AppType', [0]);
         });
 
-        foreach ($unique_price as $key=>$field) {
-            $data[$key] = $app->whereHas('AppPrice', function ($query) use ($field) {
-                $query->whereBetween('PriceInitial', explode(',', $field))->where('Country', 'China')->whereNotNull('PriceInitial');
-            })
-            ->with([
-                'AppPrice' => function ($query) use ($field) {
-                    $query->where('Country', 'China')->orderBy('LastUpdated', 'desc');
-                }
-            ])
-            ->when($type[0], function ($query) use ($type) {
-                $query->whereHas('AppTag', function ($query) use ($type) {
-                    $query->whereIn('Tag', $type);
-                });
-            })
-            ->with([
-                'AppTag' => function ($query) {
-                    $query->orderBy('LastUpdated', 'desc');
-                }
-            ])
-            ->orderBy('LastUpdated', 'desc')
-            ->paginate();
-        }
+        $data = $app->whereHas('AppPrice', function ($query) use ($unique_price) {
+            $query->where(function ($query) use ($unique_price) {
+                $query->orWhereBetween('PriceInitial', $unique_price)->where('Country', 'China');
+            });
+        })
+        ->with([
+            'AppPrice' => function ($query) {
+                $query->where('Country', 'China')->orderBy('LastUpdated', 'desc');
+            }
+        ])
+        ->when($type[0], function ($query) use ($type) {
+            $query->whereHas('AppTag', function ($query) use ($type) {
+                $query->whereIn('Tag', $type);
+            });
+        })
+        ->with([
+            'AppTag' => function ($query) {
+                $query->orderBy('LastUpdated', 'desc');
+            }
+        ])
+        ->orderBy('LastUpdated', 'desc')
+        ->paginate();
         return $data;
     }
 }
