@@ -32,31 +32,33 @@ class SearchController extends Controller
         $appPrice = AppPrice::query();
         $appTag = AppTag::query();
         
-        $app = App::where('AppID', 'like', '%' . $query_name . '%')
-        ->orWhere('Name', 'like', '%' . $query_name . '%')
-        ->orWhere('ChineseName', 'like', '%' . $query_name . '%')
-        ->orWhere('Nickname', 'like', '%' . $query_name . '%')
-        ->orWhere('DetailedDescription', 'like', '%' . $query_name . '%')
-        ->orWhere('ShortDescription', 'like', '%' . $query_name . '%')
-        ->whereNotIn('AppType', [0]);
-        
+        $app = App::where(function($query) use ($query_name) {
+            $query->where('AppID', 'like', '%' . $query_name . '%')
+                ->orWhere('Name', 'like', '%' . $query_name . '%')
+                ->orWhere('ChineseName', 'like', '%' . $query_name . '%')
+                ->orWhere('Nickname', 'like', '%' . $query_name . '%')
+                ->orWhere('DetailedDescription', 'like', '%' . $query_name . '%')
+                ->orWhere('ShortDescription', 'like', '%' . $query_name . '%')
+                ->whereNotIn('AppType', [0]);
+        });
+
         foreach ($unique_price as $key=>$field) {
             $data[$key] = $app->whereHas('AppPrice', function ($query) use ($field) {
-                return $query->whereBetween('PriceInitial', explode(',', $field))->where('Country', 'China')->whereNotNull('PriceInitial');
+                $query->whereBetween('PriceInitial', explode(',', $field))->where('Country', 'China')->whereNotNull('PriceInitial');
             })
             ->with([
-                'AppPrice' => function ($query) {
-                    return $query->where('Country', 'China')->orderBy('LastUpdated', 'desc');
+                'AppPrice' => function ($query) use ($field) {
+                    $query->where('Country', 'China')->orderBy('LastUpdated', 'desc');
                 }
             ])
             ->when($type[0], function ($query) use ($type) {
                 $query->whereHas('AppTag', function ($query) use ($type) {
-                    return $query->whereIn('Tag', $type);
+                    $query->whereIn('Tag', $type);
                 });
             })
             ->with([
                 'AppTag' => function ($query) {
-                    return $query->orderBy('LastUpdated', 'desc');
+                    $query->orderBy('LastUpdated', 'desc');
                 }
             ])
             ->orderBy('LastUpdated', 'desc')
