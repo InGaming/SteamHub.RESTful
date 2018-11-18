@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Game;
 use Cache;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
+use Validator;
+use Illuminate\Validation\Rule;
 use App\Http\Controllers\Controller;
 use App\Model\Game\App;
 use App\Model\Game\AppPrice;
@@ -13,10 +15,25 @@ use App\Model\Game\AppTag;
 class SearchController extends Controller
 {
     public function index(Request $request) {
-        return Cache::remember($request->fullUrl(), 1440, function () use ($request) {
+        return Cache::remember($request->fullUrl(), 0, function () use ($request) {
             $type = $request->type;
             $price = $request->price;
             $query_name = $request->q[0];
+            $queryTag = AppTag::query();
+            $queryTagName = $queryTag->distinct()->pluck('Tag');
+            Validator::make($request->all(), [
+            'type.*' => [
+                'nullable',
+                Rule::in($queryTagName),
+            ],
+            'price.*' => [
+                'nullable',
+                Rule::in(['0,3000', '3000,10000', '10000,15000', '15000,300000']),
+            ],
+            'q' => [
+                'filled',
+            ],
+            ])->validate();
             return $this->query($query_name, $price, $type);
         });
     }
