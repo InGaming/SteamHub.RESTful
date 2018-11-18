@@ -15,9 +15,10 @@ use App\Model\Game\AppTag;
 class SearchController extends Controller
 {
     public function index(Request $request) {
-        return Cache::remember($request->fullUrl(), 1440, function () use ($request) {
+        return Cache::remember($request->fullUrl(), 0, function () use ($request) {
             $type = $request->type;
             $price = $request->price;
+            $price_null = $request->price_null;
             $query_name = $request->q[0];
             $queryTag = AppTag::query();
             $queryTagName = $queryTag->distinct()->pluck('Tag');
@@ -34,12 +35,11 @@ class SearchController extends Controller
                 'filled',
             ],
             ])->validate();
-            return $this->query($query_name, $price, $type);
+            return $this->query($query_name, $price, $type, $price_null);
         });
     }
 
-    public function query($query_name, $price, $type) {
-        
+    public function query($query_name, $price, $type, $price_null) {
         if ($price) {
             $unique_price = explode(',', $price);
         } else {
@@ -59,9 +59,11 @@ class SearchController extends Controller
                 ->whereNotIn('AppType', [0]);
         });
 
-        $data = $app->whereHas('AppPrice', function ($query) use ($unique_price) {
-            $query->where(function ($query) use ($unique_price) {
-                $query->orWhereBetween('PriceInitial', $unique_price)->where('Country', 'China');
+        $data = $app->whereHas('AppPrice', function ($query) use ($unique_price, $price_null) {
+            $query->when($price_null === 'true', function ($query) use ($unique_price) {
+                return $query->whereNull('PriceInitial');
+            }, function ($query) use ($unique_price) {
+                return $query->whereBetween('PriceInitial', $unique_price)->whereNotNull('PriceInitial')->where('Country', 'China');
             });
         })
         ->with([
