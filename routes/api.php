@@ -1,7 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
-
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -13,13 +11,12 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('api')->group(function () {
-    Route::get('/', function () {
-        return view('welcome');
+Route::group(['prefix' => 'v3', 'namespace' => 'Api\V3', 'middleware' => 'api'], function () {
+    Route::group(['prefix' => 'game', 'namespace' => 'Game'], function () {
+       Route::apiResource('/list', 'GameListController');
     });
 });
 
-
-Route::middleware('auth:api')->group(function () {
+Route::group(['middleware' => 'auth:api'], function () {
 
 });

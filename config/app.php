@@ -4,6 +4,18 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Application Version
+    |--------------------------------------------------------------------------
+    |
+    | This value is the version of your application. This value is used when the
+    | api runtime.
+    |
+    */
+
+    'version' => env('APP_VERSION', 'v3'),
+
+    /*
+    |--------------------------------------------------------------------------
     | Application Name
     |--------------------------------------------------------------------------
     |
@@ -13,7 +25,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME', 'Laravel'),
+    'name' => env('APP_NAME', 'SteamHub'),
 
     /*
     |--------------------------------------------------------------------------
@@ -54,6 +66,10 @@ return [
 
     'url' => env('APP_URL', 'http://localhost'),
 
+    'website_url' => env('APP_WEBSITE_URL', 'https://steamhub.cn'),
+
+    'github_url' => env('APP_GITHUB_URL', 'https://github.com/InGaming'),
+
     'asset_url' => env('ASSET_URL', null),
 
     /*
@@ -67,7 +83,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => 'Asia/Shanghai',
 
     /*
     |--------------------------------------------------------------------------
