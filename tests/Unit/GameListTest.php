@@ -1,0 +1,177 @@
+<?php
+
+namespace Tests\Unit;
+
+use phpDocumentor\Reflection\Types\Boolean;
+use phpDocumentor\Reflection\Types\Integer;
+use phpDocumentor\Reflection\Types\String_;
+use Tests\TestCase;
+use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+
+class GameListTest extends TestCase
+{
+    /**
+     * A basic test param length.
+     *
+     * @var Integer $length => min:1|max:100
+     * @return void
+     */
+    public function testParamLength()
+    {
+        // Param verification failed
+        $verification_failed_response =
+            $this->json('get', '/api/v3/game/list', [
+                'length' => 101,
+            ]);
+        $verification_failed_response
+            ->assertStatus(422);
+
+        $response = $this->json('get', '/api/v3/game/list', [
+            'length' => 10
+        ]);
+
+        $response
+            ->assertStatus(200)
+            ->assertJsonCount(10, 'data')
+            ->assertJson([
+                'meta' => [
+                    'per_page' => 10,
+                ],
+            ]);
+    }
+
+    /**
+     * A basic test param order
+     *
+     * @var String_ $order => asc|desc
+     * @var String_ $order_field => metacritic_score|steam_user_score|released_at|created_at|updated_at
+     * @return void
+     */
+
+    public function testParamOrder()
+    {
+        // Param verification failed
+        $verification_failed_response =
+            $this->json('get', '/api/v3/game/list', [
+                'order' => 'desc',
+            ]);
+        $verification_failed_response
+            ->assertStatus(422);
+
+        // A param for metacritic score
+        $metacritic_score_response_success =
+            $this->json('get', '/api/v3/game/list', [
+                'order' => 'desc',
+                'order_field' => 'metacritic_score'
+            ]);
+
+        $metacritic_score_response_success
+            ->assertStatus(200)
+            ->assertSeeTextInOrder([
+                'metacritic_score'
+            ]);
+
+        // A param for steam user score
+        $steam_user_score_response =
+            $this->json('get', '/api/v3/game/list', [
+                'order' => 'desc',
+                'order_field' => 'steam_user_score'
+            ]);
+
+        $steam_user_score_response
+            ->assertStatus(200)
+            ->assertSeeTextInOrder([
+                'steam_user_score'
+            ]);
+
+        // A param for released at
+        $released_at_response =
+            $this->json('get', '/api/v3/game/list', [
+                'order' => 'desc',
+                'order_field' => 'released_at'
+            ]);
+
+        $released_at_response
+            ->assertStatus(200)
+            ->assertSeeTextInOrder([
+                'steam_user_score'
+            ]);
+
+        // A param for created at
+        $created_at_response =
+            $this->json('get', '/api/v3/game/list', [
+                'order' => 'desc',
+                'order_field' => 'created_at'
+            ]);
+
+        $created_at_response
+            ->assertStatus(200);
+
+        // A param for updated at
+        $updated_at_response =
+            $this->json('get', '/api/v3/game/list', [
+                'order' => 'desc',
+                'order_field' => 'updated_at'
+            ]);
+
+        $updated_at_response
+            ->assertStatus(200);
+    }
+
+    /**
+     * A basic test param free
+     *
+     * @var Boolean $free
+     * @return void
+     */
+    public function testParamFree()
+    {
+        // Param verification failed
+        $verification_failed_response =
+            $this->json('get', '/api/v3/game/list', [
+                'free' => 2,
+            ]);
+        $verification_failed_response
+            ->assertStatus(422);
+
+        // A param for free
+        $free_response =
+            $this->json('get', '/api/v3/game/list', [
+                'free' => 0,
+            ]);
+
+        $free_response
+            ->assertStatus(200)
+            ->assertSeeInOrder([
+                'free' => 0
+            ]);
+    }
+
+    /**
+     * A basic test param q
+     *
+     * @var String_ $q
+     */
+    public function testQueryParam()
+    {
+        // Param verification failed
+        $verification_failed_response =
+            $this->json('get', '/api/v3/game/list', [
+                'q' => null,
+            ]);
+        $verification_failed_response
+            ->assertStatus(422);
+
+        // A param for q
+        // A param for free
+        $free_response =
+            $this->json('get', '/api/v3/game/list', [
+                'q' => 'a',
+            ]);
+
+        $free_response
+            ->assertStatus(200);
+    }
+
+}
