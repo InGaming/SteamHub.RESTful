@@ -66,10 +66,6 @@ class GameListController extends Controller
         $order_field = $request->order_field;
         $text_field = $this->text_field;
 
-        function query(string ...$q)
-        {
-
-        }
         $query =
             $gameListModel->when(!is_null($free), function ($query) use ($free) {
                 return $query->whereFree($free);
