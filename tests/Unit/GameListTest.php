@@ -164,13 +164,12 @@ class GameListTest extends TestCase
             ->assertStatus(422);
 
         // A param for q
-        // A param for free
-        $free_response =
+        $q_response =
             $this->json('get', '/api/v3/game/list', [
                 'q' => 'a',
             ]);
 
-        $free_response
+        $q_response
             ->assertStatus(200);
     }
 
