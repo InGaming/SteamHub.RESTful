@@ -2,15 +2,27 @@
 
 namespace App\Http\Controllers\Api\V3\Game;
 
-use App\Http\Requests\Api\V3\Game\GameListQuery;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Model\Api\V3\Game\GameList;
-use App\Http\Resources\Api\V3\Game\GameList as GameListResources;
-use phpDocumentor\Reflection\Types\Array_;
-use phpDocumentor\Reflection\Types\Boolean;
-use phpDocumentor\Reflection\Types\Integer;
-use phpDocumentor\Reflection\Types\String_;
+use App\Http\Controllers\{
+    Controller
+};
+use App\Http\Resources\Api\V3\Game\{
+    GameList as GameListResources
+};
+use App\Model\Api\V3\Game\{
+    GameList as GameListModel
+};
+use App\Http\Requests\Api\V3\Game\{
+    GameListQuery
+};
+use Illuminate\Http\{
+    Request
+};
+use phpDocumentor\Reflection\Types\{
+    Array_,
+    Boolean,
+    Integer,
+    String_
+};
 
 class GameListController extends Controller
 {
@@ -25,10 +37,10 @@ class GameListController extends Controller
      * Display a listing of the resource.
      *
      * @param GameListQuery $request
-     * @param GameList $gameList
+     * @param GameListModel $gameListModel
      * @return GameListResources
      */
-    public function index(GameListQuery $request, GameList $gameList)
+    public function index(GameListQuery $request, GameListModel $gameListModel)
     {
         /**
          * Define query param
@@ -54,8 +66,12 @@ class GameListController extends Controller
         $order_field = $request->order_field;
         $text_field = $this->text_field;
 
+        function query(string ...$q)
+        {
+
+        }
         $query =
-            $gameList->when(!is_null($free), function ($query) use ($free) {
+            $gameListModel->when(!is_null($free), function ($query) use ($free) {
                 return $query->whereFree($free);
             })
                 ->when($q, function ($query) use ($q, $text_field) {
@@ -101,7 +117,7 @@ class GameListController extends Controller
      * @param int $appid
      * @return \Illuminate\Http\Response
      */
-    public function show(GameList $GameList, $appid)
+    public function show(GameListModel $GameList, $appid)
     {
         return $GameList->find($appid);
     }
