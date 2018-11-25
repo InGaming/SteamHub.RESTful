@@ -98,22 +98,22 @@ class GameListController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $appid
      * @return \Illuminate\Http\Response
      */
-    public function show(GameList $GameList, $id)
+    public function show(GameList $GameList, $appid)
     {
-        return $GameList->find($id);
+        return $GameList->find($appid);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  int  $appid
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $appid)
     {
         //
     }
@@ -121,10 +121,10 @@ class GameListController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int  $appid
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($appid)
     {
         //
     }
