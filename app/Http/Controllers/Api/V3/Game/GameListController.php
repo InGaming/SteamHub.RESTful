@@ -52,6 +52,7 @@ class GameListController extends Controller
          * @var Integer $steam_user_score
          * @var String_ $platforms
          * @var Integer $length
+         * @var Boolean $simple_paginate
          * @var String_ $order
          * @var String_ $order_field
          */
@@ -64,6 +65,7 @@ class GameListController extends Controller
         $length = $request->length;
         $order = $request->order;
         $order_field = $request->order_field;
+        $simple_paginate = $request->simple_paginate;
         $text_field = $this->text_field;
 
         $query =
@@ -89,7 +91,11 @@ class GameListController extends Controller
                 ->when($order_field && $order, function ($query) use ($order_field, $order) {
                     return $query->orderBy($order_field, $order);
                 })
-                ->paginate($length);
+                ->when($simple_paginate, function ($query) use ($length) {
+                    return $query->simplePaginate ($length);
+                }, function ($query) use ($length) {
+                    return $query->paginate($length);
+                });
 
         $data = new GameListResources($query);
 

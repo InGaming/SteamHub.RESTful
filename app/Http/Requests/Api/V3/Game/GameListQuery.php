@@ -30,6 +30,7 @@ class GameListQuery extends FormRequest
             'steam_user_score' => 'filled|numeric|min:1|max:100',
             'platform' => 'filled|alpha|in:windows,linux,mac',
             'length' => 'filled|numeric|min:1|max:100',
+            'simple_paginate' => 'filled|boolean',
             'order' => 'required_with:order_field|alpha|in:asc,desc',
             'order_field' => 'required_with:order|alpha_dash|in:metacritic_score,steam_user_score,released_at,created_at,updated_at'
         ];

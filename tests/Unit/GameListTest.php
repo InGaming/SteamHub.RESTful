@@ -2,9 +2,11 @@
 
 namespace Tests\Unit;
 
-use phpDocumentor\Reflection\Types\Boolean;
-use phpDocumentor\Reflection\Types\Integer;
-use phpDocumentor\Reflection\Types\String_;
+use phpDocumentor\Reflection\Types\{
+    Boolean,
+    Integer,
+    String_
+};
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -24,6 +26,7 @@ class GameListTest extends TestCase
             $this->json('get', '/api/v3/game/list', [
                 'length' => 101,
             ]);
+
         $verification_failed_response
             ->assertStatus(422);
 
@@ -42,6 +45,32 @@ class GameListTest extends TestCase
     }
 
     /**
+     * A basic test param simple paginate.
+     *
+     * @var Boolean $simple_paginate
+     * @return void
+     */
+    public function testParamSimplePaginate()
+    {
+        // Param verification failed
+        $verification_failed_response =
+            $this->json('get', '/api/v3/game/list', [
+                'simple_paginate' => 2,
+            ]);
+
+        $verification_failed_response
+            ->assertStatus(422);
+
+        $response = $this->json('get', '/api/v3/game/list', [
+            'simple_paginate' => 1
+        ]);
+
+        $response
+            ->assertStatus(200)
+            ->assertDontSeeText('total');
+    }
+
+    /**
      * A basic test param order
      *
      * @var String_ $order => asc|desc
@@ -56,6 +85,7 @@ class GameListTest extends TestCase
             $this->json('get', '/api/v3/game/list', [
                 'order' => 'desc',
             ]);
+
         $verification_failed_response
             ->assertStatus(422);
 
@@ -132,6 +162,7 @@ class GameListTest extends TestCase
             $this->json('get', '/api/v3/game/list', [
                 'free' => 2,
             ]);
+
         $verification_failed_response
             ->assertStatus(422);
 
@@ -160,6 +191,7 @@ class GameListTest extends TestCase
             $this->json('get', '/api/v3/game/list', [
                 'q' => null,
             ]);
+
         $verification_failed_response
             ->assertStatus(422);
 
