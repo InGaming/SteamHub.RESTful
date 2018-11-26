@@ -25,6 +25,7 @@ class CreateGameListsTable extends Migration
             $table->text('short_description')->nullable();
             $table->string('platforms')->nullable()->index();
             $table->timestamp('released_at')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }
