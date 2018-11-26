@@ -16,7 +16,3 @@ Route::group(['prefix' => 'v3', 'namespace' => 'Api\V3', 'middleware' => 'api'],
        Route::apiResource('/list', 'GameListController');
     });
 });
-
-Route::group(['middleware' => 'auth:api'], function () {
-
-});
