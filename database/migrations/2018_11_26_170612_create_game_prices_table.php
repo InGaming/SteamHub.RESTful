@@ -20,6 +20,7 @@ class CreateGamePricesTable extends Migration
             $table->integer('final')->nullable()->index();
             $table->integer('initial')->nullable()->index();
             $table->integer('discount')->nullable()->index();
+            $table->softDeletes();
             $table->timestamps();
         });
     }
