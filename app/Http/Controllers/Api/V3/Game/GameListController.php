@@ -118,13 +118,13 @@ class GameListController extends Controller
      * Display the specified resource.
      *
      * @param GameListModel $gameListModel
-     * @param int $appid
+     * @param String_ $appids
      * @return GameListResources
      */
-    public function show(GameListModel $gameListModel, $appid)
+    public function show(GameListModel $gameListModel, $appids)
     {
-        $appids = array_map('intval', explode(',', $appid));
-        $query = $gameListModel->find($appids);
+        $array_appids = array_map('intval', explode(',', $appids));
+        $query = $gameListModel->find($array_appids);
         $data = new GameListResources($query);
         return $data;
     }
