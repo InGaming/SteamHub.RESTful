@@ -11,13 +11,8 @@
 |
 */
 
-Route::get('/', function () {
-    return redirect('docs');
-});
-
+Route::redirect('/', '/docs');
 
 Route::group(['prefix' => 'docs', 'namespace' => 'docs'], function () {
-    Route::get('/', function () {
-        return 'SteamHub DOCS';
-    });
+    Route::view('/', 'docs.welcome');
 });
