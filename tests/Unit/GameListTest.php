@@ -2,14 +2,8 @@
 
 namespace Tests\Unit;
 
-use phpDocumentor\Reflection\Types\{
-    Boolean,
-    Integer,
-    String_
-};
+use phpDocumentor\Reflection\Types\{Boolean, Integer, String_};
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class GameListTest extends TestCase
 {
@@ -205,4 +199,16 @@ class GameListTest extends TestCase
             ->assertStatus(200);
     }
 
+    /**
+     * A basic test action show
+     *
+     */
+    public function testShowGames()
+    {
+        $q_response =
+            $this->json('get', '/api/v3/game/list/1,2');
+
+        $q_response
+            ->assertStatus(200);
+    }
 }

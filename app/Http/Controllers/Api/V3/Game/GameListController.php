@@ -17,12 +17,7 @@ use App\Http\Requests\Api\V3\Game\{
 use Illuminate\Http\{
     Request
 };
-use phpDocumentor\Reflection\Types\{
-    Array_,
-    Boolean,
-    Integer,
-    String_
-};
+use phpDocumentor\Reflection\Types\{Array_, Boolean, Integer, String_};
 
 class GameListController extends Controller
 {
@@ -116,12 +111,16 @@ class GameListController extends Controller
     /**
      * Display the specified resource.
      *
+     * @param GameListModel $gameListModel
      * @param int $appid
-     * @return \Illuminate\Http\Response
+     * @return GameListResources
      */
-    public function show(GameListModel $GameList, $appid)
+    public function show(GameListModel $gameListModel, $appid)
     {
-        return $GameList->find($appid);
+        $appids = array_map('intval', explode(',', $appid));
+        $query = $gameListModel->find($appids);
+        $data = new GameListResources($query);
+        return $data;
     }
 
     /**
