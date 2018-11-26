@@ -24,7 +24,8 @@ class GameListQuery extends FormRequest
     public function rules()
     {
         return [
-            'q' => 'filled',
+            'q' => 'filled|string',
+            'appids' => 'filled|string',
             'free' => 'filled|boolean',
             'metacritic_score' => 'filled|numeric|min:1|max:100',
             'steam_user_score' => 'filled|numeric|min:1|max:100',

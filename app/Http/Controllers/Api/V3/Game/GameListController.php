@@ -42,6 +42,7 @@ class GameListController extends Controller
          * View validation: app/Http/Requests/Api/V3/Game/GameListQuery.php
          *
          * @var String_ $q
+         * @var Array_ $appids
          * @var Boolean $free
          * @var Integer $metacritic_score
          * @var Integer $steam_user_score
@@ -53,6 +54,7 @@ class GameListController extends Controller
          */
 
         $q = $request->q;
+        $appids = $request->appids;
         $free = $request->free;
         $metacritic_score = $request->metacritic_score;
         $steam_user_score = $request->steam_user_score;
@@ -73,6 +75,10 @@ class GameListController extends Controller
                             $query->orWhere($item, 'like', '%'.$q.'%');
                         }
                     });
+                })
+                ->when($appids, function ($query) use ($appids) {
+                    $array_appids = array_map('intval', explode(',', $appids));
+                    return $query->whereIn('appid', $array_appids);
                 })
                 ->when($metacritic_score, function ($query) use ($metacritic_score) {
                     return $query->whereMetacriticScore($metacritic_score);

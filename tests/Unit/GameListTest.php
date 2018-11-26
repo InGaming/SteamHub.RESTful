@@ -200,6 +200,32 @@ class GameListTest extends TestCase
     }
 
     /**
+     * A basic test param appids
+     *
+     * @var String_ $appids
+     */
+    public function testAppidsParam()
+    {
+        // Param verification failed
+        $verification_failed_response =
+            $this->json('get', '/api/v3/game/list', [
+                'appids' => null,
+            ]);
+
+        $verification_failed_response
+            ->assertStatus(422);
+
+        // A param for appids
+        $q_response =
+            $this->json('get', '/api/v3/game/list', [
+                'appids' => '1,2',
+            ]);
+
+        $q_response
+            ->assertStatus(200);
+    }
+
+    /**
      * A basic test action show
      *
      */
