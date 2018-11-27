@@ -13,6 +13,9 @@
 
 Route::group(['name' => 'api.', 'prefix' => 'v3', 'namespace' => 'Api\V3', 'middleware' => 'api'], function () {
     Route::group(['name' => 'game.', 'prefix' => 'game', 'namespace' => 'Game'], function () {
-       Route::apiResource('/list', 'GameListController');
+        Route::apiResources([
+            'list' => 'GameListController',
+            'price' => 'GamePriceController'
+        ]);
     });
 });
