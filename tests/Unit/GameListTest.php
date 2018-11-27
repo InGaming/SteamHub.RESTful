@@ -216,12 +216,12 @@ class GameListTest extends TestCase
             ->assertStatus(422);
 
         // A param for appids
-        $q_response =
+        $appids_response =
             $this->json('get', '/api/v3/game/list', [
                 'appids' => '1,2',
             ]);
 
-        $q_response
+        $appids_response
             ->assertStatus(200);
     }
 
@@ -231,10 +231,10 @@ class GameListTest extends TestCase
      */
     public function testShowGames()
     {
-        $q_response =
+        $show_response =
             $this->json('get', '/api/v3/game/list/1,2');
 
-        $q_response
+        $show_response
             ->assertStatus(200);
     }
 }
