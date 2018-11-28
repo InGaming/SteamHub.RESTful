@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Model\Api\V3\Game;
+namespace App\Model\Game;
 
 use Illuminate\Database\Eloquent\Model;
 
-class GamePrice extends Model
+class GameList extends Model
 {
     protected $primaryKey = 'appid';
     protected $hidden = ['id'];

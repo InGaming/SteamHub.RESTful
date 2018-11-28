@@ -1,18 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Api\V3\Game;
+namespace App\Http\Controllers\Game;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Model\Api\V3\Game\{
-    GamePrice as GamePriceModel
-};
-use App\Http\Requests\Api\V3\Game\{
-    GamePriceQuery
-};
-use App\Http\Resources\Api\V3\Game\{
-    GamePrice as GamePriceResources
-};
+use App\Model\Game\GamePrice as GamePriceModel;
+use App\Http\Requests\Game\GamePriceQuery;
+use App\Http\Resources\Game\GamePrice as GamePriceResources;
 use phpDocumentor\Reflection\Types\String_;
 
 class GamePriceController extends Controller

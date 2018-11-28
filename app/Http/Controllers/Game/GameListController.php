@@ -1,22 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Api\V3\Game;
+namespace App\Http\Controllers\Game;
 
-use App\Http\Controllers\{
-    Controller
-};
-use App\Http\Resources\Api\V3\Game\{
-    GameList as GameListResources
-};
-use App\Model\Api\V3\Game\{
-    GameList as GameListModel
-};
-use App\Http\Requests\Api\V3\Game\{
-    GameListQuery
-};
-use Illuminate\Http\{
-    Request
-};
+use App\Http\Controllers\Controller;
+use App\Http\Resources\Game\GameList as GameListResources;
+use App\Model\Game\GameList as GameListModel;
+use App\Http\Requests\Game\GameListQuery;
+use Illuminate\Http\Request;
 use phpDocumentor\Reflection\Types\{Array_, Boolean, Integer, String_};
 
 class GameListController extends Controller

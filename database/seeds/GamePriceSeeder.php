@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\Model\Api\V3\Game\GamePrice;
+use App\Model\Game\GamePrice;
 
 class GamePriceSeeder extends Seeder
 {

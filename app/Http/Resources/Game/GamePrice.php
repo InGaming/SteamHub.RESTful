@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Resources\Api\V3\Game;
+namespace App\Http\Resources\Game;
 
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
-class GameList extends ResourceCollection
+class GamePrice extends ResourceCollection
 {
     /**
-     * Transform the resource collection into an array.
+     * Transform the resource into an array.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return array

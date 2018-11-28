@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\Model\Api\V3\Game\GameList;
+use App\Model\Game\GameList;
 
 class GameListsSeeder extends Seeder
 {

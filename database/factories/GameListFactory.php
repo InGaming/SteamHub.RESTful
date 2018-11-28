@@ -1,7 +1,7 @@
 <?php
 
 use Faker\Generator as Faker;
-use App\Model\Api\V3\Game\GameList;
+use App\Model\Game\GameList;
 
 /** @var \phpDocumentor\Reflection\DocBlock\Tags\Method $factory */
 $factory->define(GameList::class, function (Faker $faker) {
