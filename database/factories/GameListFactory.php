@@ -8,6 +8,7 @@ $factory->define(GameList::class, function (Faker $faker) {
     return [
         'appid' => rand(),
         'free'  => rand(0,1),
+        'age'  => rand(0,100),
         'name' => $faker->name,
         'chinese_name' => $faker->name,
         'metacritic_score' => rand(1, 100),

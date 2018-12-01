@@ -17,6 +17,7 @@ class CreateGameListsTable extends Migration
             $table->increments('id');
             $table->integer('appid')->unique();
             $table->boolean('free')->nullable()->index();
+            $table->integer('age')->nullable()->index();
             $table->string('name')->index();
             $table->string('chinese_name')->nullable()->index();
             $table->integer('metacritic_score')->nullable()->index();
