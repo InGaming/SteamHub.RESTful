@@ -8,4 +8,5 @@ class GameList extends Model
 {
     protected $primaryKey = 'appid';
     protected $hidden = ['id'];
+    protected $guarded = ['id', 'created_at', 'updated_at'];
 }
