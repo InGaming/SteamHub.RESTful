@@ -22,7 +22,7 @@ class CreateGameListsTable extends Migration
             $table->string('name')->index();
             $table->string('chinese_name')->nullable()->index();
             $table->integer('metacritic_review_score')->nullable()->index();
-            $table->integer('metacritic_review_link')->nullable()->index();
+            $table->string('metacritic_review_link')->nullable()->index();
             $table->integer('steam_user_review_score')->nullable()->index();
             $table->integer('steam_user_review_count')->nullable()->index();
             $table->string('steam_user_review_summary')->nullable()->index();
