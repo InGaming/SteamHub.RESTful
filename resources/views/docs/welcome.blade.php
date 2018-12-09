@@ -76,6 +76,7 @@
                     }(window, document, "_pm", "PostmanRunObject", "https://run.pstmn.io/button.js"));
                 </script>
                 <div class="links">
+                    <a href="https://dev.steamhub.cn">Docs</a>
                     <a href="{{ config('app.website_url') }}">Website</a>
                     <a href="{{ config('app.github_url') }}">GitHub</a>
                 </div>
