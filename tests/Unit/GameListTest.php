@@ -61,14 +61,14 @@ class GameListTest extends TestCase
 
         $response
             ->assertStatus(200)
-            ->assertDontSeeText('total');
+            ->assertDontSeeText('meta.total');
     }
 
     /**
      * A basic test param order
      *
      * @var String_ $order => asc|desc
-     * @var String_ $order_field => metacritic_score|steam_user_score|released_at|created_at|updated_at
+     * @var String_ $order_field => metacritic_review_score|steam_user_review_score|released_at|created_at|updated_at
      * @return void
      */
 
@@ -83,30 +83,56 @@ class GameListTest extends TestCase
         $verification_failed_response
             ->assertStatus(422);
 
+        // A param for age
+        $agd_response_success =
+            $this->json('get', '/api/v3/game/list', [
+                'order' => 'desc',
+                'order_field' => 'age'
+            ]);
+
+        $agd_response_success
+            ->assertStatus(200)
+            ->assertSeeTextInOrder([
+                'age'
+            ]);
+
         // A param for metacritic score
-        $metacritic_score_response_success =
+        $metacritic_review_score_response_success =
             $this->json('get', '/api/v3/game/list', [
                 'order' => 'desc',
-                'order_field' => 'metacritic_score'
+                'order_field' => 'metacritic_review_score'
             ]);
 
-        $metacritic_score_response_success
+        $metacritic_review_score_response_success
             ->assertStatus(200)
             ->assertSeeTextInOrder([
-                'metacritic_score'
+                'metacritic_review_score'
             ]);
 
-        // A param for steam user score
-        $steam_user_score_response =
+        // A param for steam_user_review_score
+        $steam_user_review_score_response =
             $this->json('get', '/api/v3/game/list', [
                 'order' => 'desc',
-                'order_field' => 'steam_user_score'
+                'order_field' => 'steam_user_review_score'
             ]);
 
-        $steam_user_score_response
+        $steam_user_review_score_response
             ->assertStatus(200)
             ->assertSeeTextInOrder([
-                'steam_user_score'
+                'steam_user_review_score'
+            ]);
+
+        // A param for steam_user_review_count
+        $steam_user_review_count_response =
+            $this->json('get', '/api/v3/game/list', [
+                'order' => 'desc',
+                'order_field' => 'steam_user_review_count'
+            ]);
+
+        $steam_user_review_count_response
+            ->assertStatus(200)
+            ->assertSeeTextInOrder([
+                'steam_user_review_count'
             ]);
 
         // A param for released at
@@ -119,7 +145,7 @@ class GameListTest extends TestCase
         $released_at_response
             ->assertStatus(200)
             ->assertSeeTextInOrder([
-                'steam_user_score'
+                'steam_user_review_score'
             ]);
 
         // A param for created at
@@ -171,6 +197,222 @@ class GameListTest extends TestCase
             ->assertSeeInOrder([
                 'free' => 0
             ]);
+    }
+
+    /**
+     * A basic test param age
+     *
+     * @var Boolean $age
+     * @return void
+     */
+    public function testParamAge()
+    {
+        // Param verification failed
+        $verification_failed_response =
+            $this->json('get', '/api/v3/game/list', [
+                'age' => 101,
+            ]);
+
+        $verification_failed_response
+            ->assertStatus(422);
+
+        // A param for age
+        $age_response =
+            $this->json('get', '/api/v3/game/list', [
+                'age' => 0,
+            ]);
+
+        $age_response
+            ->assertStatus(200);
+    }
+
+    /**
+     * A basic test param type
+     *
+     * @var Boolean $type
+     * @return void
+     */
+    public function testParamType()
+    {
+        // Param verification failed
+        $verification_failed_response =
+            $this->json('get', '/api/v3/game/list', [
+                'type' => null,
+            ]);
+
+        $verification_failed_response
+            ->assertStatus(422);
+
+        // A param for type
+        $type_response =
+            $this->json('get', '/api/v3/game/list', [
+                'type' => 'a',
+            ]);
+
+        $type_response
+            ->assertStatus(200);
+    }
+
+    /**
+     * A basic test param metacritic_review_link
+     *
+     * @var Boolean $metacritic_review_link
+     * @return void
+     */
+    public function testParamMetacriticReviewLink()
+    {
+        // Param verification failed
+        $verification_failed_response =
+            $this->json('get', '/api/v3/game/list', [
+                'metacritic_review_link' => 'abc.com',
+            ]);
+
+        $verification_failed_response
+            ->assertStatus(422);
+
+        // A param for metacritic_review_link
+        $metacritic_review_link_response =
+            $this->json('get', '/api/v3/game/list', [
+                'metacritic_review_link' => 'https://abc.com',
+            ]);
+
+        $metacritic_review_link_response
+            ->assertStatus(200);
+    }
+
+    /**
+     * A basic test param steam_user_review_summary
+     *
+     * @var Boolean $steam_user_review_summary
+     * @return void
+     */
+    public function testParamSteamUserReviewSummary()
+    {
+        // Param verification failed
+        $verification_failed_response =
+            $this->json('get', '/api/v3/game/list', [
+                'steam_user_review_summary' => null,
+            ]);
+
+        $verification_failed_response
+            ->assertStatus(422);
+
+        // A param for steam_user_review_summary
+        $steam_user_review_summary_response =
+            $this->json('get', '/api/v3/game/list', [
+                'steam_user_review_summary' => 'a',
+            ]);
+
+        $steam_user_review_summary_response
+            ->assertStatus(200);
+    }
+
+    /**
+     * A basic test param language
+     *
+     * @var Boolean $language
+     * @return void
+     */
+    public function testParamLanguage()
+    {
+        // Param verification failed
+        $verification_failed_response =
+            $this->json('get', '/api/v3/game/list', [
+                'language' => null,
+            ]);
+
+        $verification_failed_response
+            ->assertStatus(422);
+
+        // A param for language
+        $language_response =
+            $this->json('get', '/api/v3/game/list', [
+                'language' => 'a',
+            ]);
+
+        $language_response
+            ->assertStatus(200);
+    }
+
+    /**
+     * A basic test param platform
+     *
+     * @var Boolean $platform
+     * @return void
+     */
+    public function testParamPlatform()
+    {
+        // Param verification failed
+        $verification_failed_response =
+            $this->json('get', '/api/v3/game/list', [
+                'platform' => 'steam_os',
+            ]);
+
+        $verification_failed_response
+            ->assertStatus(422);
+
+        // A param for platform
+        $platform_response =
+            $this->json('get', '/api/v3/game/list', [
+                'platform' => 'windows',
+            ]);
+
+        $platform_response
+            ->assertStatus(200);
+    }
+
+    /**
+     * A basic test param developer
+     *
+     * @var Boolean $developer
+     * @return void
+     */
+    public function testParamDeveloper()
+    {
+        // Param verification failed
+        $verification_failed_response =
+            $this->json('get', '/api/v3/game/list', [
+                'developer' => null,
+            ]);
+
+        $verification_failed_response
+            ->assertStatus(422);
+
+        // A param for developer
+        $developer_response =
+            $this->json('get', '/api/v3/game/list', [
+                'developer' => 'valve',
+            ]);
+
+        $developer_response
+            ->assertStatus(200);
+    }
+
+    /**
+     * A basic test param publisher
+     *
+     * @var Boolean $publisher
+     * @return void
+     */
+    public function testParamPublisher()
+    {
+        // Param verification failed
+        $verification_failed_response =
+            $this->json('get', '/api/v3/game/list', [
+                'publisher' => null,
+            ]);
+
+        $verification_failed_response
+            ->assertStatus(422);
+
+        // A param for publisher
+        $publisher_response =
+            $this->json('get', '/api/v3/game/list', [
+                'publisher' => 'valve',
+            ]);
+
+        $publisher_response
+            ->assertStatus(200);
     }
 
     /**
