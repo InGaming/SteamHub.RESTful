@@ -32,6 +32,7 @@ class CacheData
     public function terminate($request, $response)
     {
         $url = $request->fullUrl();
-        Cache::add($url, $response, config('cache.expire'));
+        if (!is_null($response))
+            Cache::add($url, $response, config('cache.expire'));
     }
 }
