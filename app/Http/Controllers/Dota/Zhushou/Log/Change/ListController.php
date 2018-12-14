@@ -27,6 +27,14 @@ class ListController extends Controller
         $xml_parse_array
             = json_decode($xml_parse_str, true);
 
-        return array_reverse($xml_parse_array['ver']);
+        $collection = collect(array_reverse($xml_parse_array['ver']));
+
+        return $collection->map(function ($item, $key) {
+            return [
+                'version'  =>  $item['@attributes']['id'] ?? null,
+                'logs' => array_wrap($item['log']) ?? null,
+                'created_at'  =>  $item['@attributes']['date'] ?? null,
+            ];
+        })->all();
     }
 }
