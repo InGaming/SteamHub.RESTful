@@ -18,4 +18,17 @@ Route::group(['name' => 'api.', 'prefix' => 'v3', 'middleware' => 'api'], functi
             'price' => 'GamePriceController'
         ]);
     });
+
+    Route::group(['name' => 'dota.', 'prefix' => 'dota', 'namespace' => 'Dota'], function () {
+        Route::group(['name' => 'zhushou.', 'prefix' => 'zhushou', 'namespace' => 'Zhushou'], function () {
+            Route::group(['name' => 'log.', 'prefix' => 'log', 'namespace' => 'Log'], function () {
+                Route::group(['name' => 'change.', 'prefix' => 'change', 'namespace' => 'Change'], function () {
+                    Route::get('list', 'ListController@index');
+                });
+                Route::group(['name' => 'update.', 'prefix' => 'update', 'namespace' => 'Update'], function () {
+                    Route::get('list', 'ListController@index');
+                });
+            });
+        });
+    });
 });

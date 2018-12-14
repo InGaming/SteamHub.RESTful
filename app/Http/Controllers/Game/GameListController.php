@@ -31,7 +31,7 @@ class GameListController extends Controller
          * Define query param
          * View validation: app/Http/Requests/Api/V3/Game/GameListQuery.php
          */
-
+        
         $q = $request->q;
         $appids = $request->appids;
         $free = $request->free;
