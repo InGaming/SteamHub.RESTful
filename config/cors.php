@@ -15,8 +15,8 @@ return [
     'supportsCredentials' => false,
     'allowedOrigins' => ['*'],
     'allowedOriginsPatterns' => [],
-    'allowedHeaders' => ['*'],
-    'allowedMethods' => ['*'],
+    'allowedHeaders' => ['DNT,X-Mx-ReqToken,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Authorization,X-Token'],
+    'allowedMethods' => ['POST, GET, OPTIONS, PUT, DELETE'],
     'exposedHeaders' => [],
     'maxAge' => 300,
 
