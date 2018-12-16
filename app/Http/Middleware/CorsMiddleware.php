@@ -19,7 +19,7 @@ class CorsMiddleware
 
         $headers = [
             'Access-Control-Allow-Methods'=> 'POST, GET, OPTIONS, PUT, DELETE',
-            'Access-Control-Allow-Headers'=> 'Content-Type, X-Auth-Token, Origin'
+            'Access-Control-Allow-Headers'=> 'DNT,X-Mx-ReqToken,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Authorization,X-Token'
         ];
         if($request->getMethod() == "OPTIONS") {
 
