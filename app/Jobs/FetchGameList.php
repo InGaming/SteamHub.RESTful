@@ -215,11 +215,13 @@ class FetchGameList implements ShouldQueue
                 ]
             );
 
-            GamePriceModel::create(
+            GamePriceModel::updateOrCreate(
                 [
                     'appid' =>  $appid,
-                    'country'   =>  $country ?? null,
                     'final'     =>  $final ?? null,
+                ],
+                [
+                    'country'   =>  $country ?? null,
                     'initial'   =>  $initial ?? null,
                     'discount'  =>  $discount ?? null,
                 ]
