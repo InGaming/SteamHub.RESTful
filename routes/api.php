@@ -29,6 +29,12 @@ Route::group(['name' => 'api.', 'prefix' => 'v3', 'middleware' => 'api'], functi
                     Route::get('list', 'ListController@index');
                 });
             });
+
+            Route::group(['name' => 'dialog.', 'prefix' => 'dialog', 'namespace' => 'Dialog'], function () {
+                Route::apiResources([
+                    'list' => 'ListController',
+                ]);
+            });
         });
     });
 });
