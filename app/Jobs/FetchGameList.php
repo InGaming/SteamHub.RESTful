@@ -75,82 +75,86 @@ class FetchGameList implements ShouldQueue
 
             $api_data = json_decode($fetch_api_data);
 
-            foreach ($api_data as $key=>$item) {
-                if (! $item->success) return;
-                if (empty($item->data)) return;
-                $item_data
-                    = $item->data;
+            try {
+                foreach ($api_data as $key=>$item) {
+                    if (! $item->success) return;
+                    if (empty($item->data)) return;
+                    $item_data
+                        = $item->data;
 
-                $free
-                    = $item_data->is_free ?? null;
+                    $free
+                        = $item_data->is_free ?? null;
 
-                $age
-                    = $item_data->required_age ?? null;
+                    $age
+                        = $item_data->required_age ?? null;
 
-                $detailed_description
-                    = $item_data->detailed_description ?? null;
+                    $detailed_description
+                        = $item_data->detailed_description ?? null;
 
-                $short_description
-                    = $item_data->short_description ?? null;
+                    $short_description
+                        = $item_data->short_description ?? null;
 
-                $chunk_languages
-                    = strtr($item_data->supported_languages ?? null,array(' '=>'')) ?? null;
+                    $chunk_languages
+                        = strtr($item_data->supported_languages ?? null,array(' '=>'')) ?? null;
 
-                $languages
-                    = implode('|', explode(',', $chunk_languages ?? null)) ?? null;
+                    $languages
+                        = implode('|', explode(',', $chunk_languages ?? null)) ?? null;
 
-                $chunk_platforms
-                    = $item_data->platforms
-                    ?? null;
+                    $chunk_platforms
+                        = $item_data->platforms
+                        ?? null;
 
-                $platforms_windows
-                    = $chunk_platforms->windows
+                    $platforms_windows
+                        = $chunk_platforms->windows
                         ? '|windows'
                         : null;
 
-                $platforms_linux
-                    = $chunk_platforms->linux
+                    $platforms_linux
+                        = $chunk_platforms->linux
                         ? '|linux'
                         : null;
 
-                $platforms_mac
-                    = $chunk_platforms->linux
-                    ? '|mac'
-                    : null;
+                    $platforms_mac
+                        = $chunk_platforms->linux
+                        ? '|mac'
+                        : null;
 
-                $platforms
-                    = implode('|', array_wrap($platforms_windows. $platforms_linux, $platforms_mac)) ?? null;
+                    $platforms
+                        = implode('|', array_wrap($platforms_windows. $platforms_linux, $platforms_mac)) ?? null;
 
-                $chunk_developers
-                    = $item_data->developers ?? null;
+                    $chunk_developers
+                        = $item_data->developers ?? null;
 
-                $developers
-                    = implode('|', $chunk_developers);
+                    $developers
+                        = implode('|', $chunk_developers);
 
-                $chunk_publishers
-                    = $item_data->publishers ?? null;
+                    $chunk_publishers
+                        = $item_data->publishers ?? null;
 
-                $publishers
-                    = implode('|', $chunk_publishers);
+                    $publishers
+                        = implode('|', $chunk_publishers);
 
-                $country
-                    = 'china';
+                    $country
+                        = 'china';
 
-                $price
-                    = $item_data->price_overview
-                    ?? null;
+                    $price
+                        = $item_data->price_overview
+                        ?? null;
 
-                $initial
-                    = $price->initial
-                    ?? null;
+                    $initial
+                        = $price->initial
+                        ?? null;
 
-                $final
-                    = $price->final
-                    ?? null;
+                    $final
+                        = $price->final
+                        ?? null;
 
-                $discount
-                    = $price->discount_percent
-                    ?? null;
+                    $discount
+                        = $price->discount_percent
+                        ?? null;
+                }
+            } catch (\Exception $e) {
+                echo $e->getMessage();
             }
 
             $fetch_store_data
