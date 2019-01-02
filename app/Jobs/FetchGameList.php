@@ -13,6 +13,7 @@ use App\Model\Game\{
     GameList as GameListModel,
     GamePrice as GamePriceModel
 };
+use GuzzleHttp\Exception\RequestException;
 
 class FetchGameList implements ShouldQueue
 {
@@ -58,8 +59,18 @@ class FetchGameList implements ShouldQueue
 
             $ql = QueryList::getInstance();
 
+            $ql->bind('myGet',function ($url,$args = null,$otherArgs = []){
+                try{
+                    $this->get($url,$args,$otherArgs);
+                }catch(RequestException $e){
+                    $this->setHtml('');
+                    echo "Http Error \r\n";
+                }
+                return $this;
+            });
+
             $fetch_api_data
-                = $ql->get($api_url. $appid)
+                = $ql->myGet($api_url. $appid)
                     ->getHtml();
 
             $api_data = json_decode($fetch_api_data);
