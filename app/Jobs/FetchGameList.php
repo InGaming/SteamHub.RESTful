@@ -191,7 +191,7 @@ class FetchGameList implements ShouldQueue
                 try {
                     $released_at = Carbon::create($released_at_match[0][0], $released_at_match[0][1] ?? null, $released_at_match[0][2] ?? null, 0, 0, 0)
                         ->toDateTimeString();
-                } catch (Exception $e) {
+                } catch (\Exception $e) {
                     echo $e->getMessage();
                 }
             }
