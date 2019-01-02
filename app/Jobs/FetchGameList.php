@@ -149,7 +149,7 @@ class FetchGameList implements ShouldQueue
 
             $store_data
                 = $fetch_store_data[0]
-                ?? null;
+                ?? [];
 
             $type
                 = $store_data['type']
