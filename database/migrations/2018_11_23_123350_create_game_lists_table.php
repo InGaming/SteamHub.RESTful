@@ -28,7 +28,7 @@ class CreateGameListsTable extends Migration
             $table->string('steam_user_review_summary')->nullable()->index();
             $table->text('detailed_description')->nullable();
             $table->text('short_description')->nullable();
-            $table->string('languages')->nullable()->index();
+            $table->text('languages')->nullable();
             $table->string('platforms')->nullable()->index();
             $table->string('developers')->nullable()->index();
             $table->string('publishers')->nullable()->index();
