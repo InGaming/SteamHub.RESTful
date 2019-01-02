@@ -187,11 +187,14 @@ class FetchGameList implements ShouldQueue
                 ? preg_match_all('/\d+/', $store_data['released_at'] ?? null, $released_at_match)
                 : null;
 
-            $released_at
-                = isset($released_at_match)
-                    ? Carbon::create($released_at_match[0][0], $released_at_match[0][1] ?? null, $released_at_match[0][2] ?? null, 0, 0, 0)
-                            ->toDateTimeString()
-                    : null;
+            if (isset($released_at_match)) {
+                try {
+                    $released_at = Carbon::create($released_at_match[0][0], $released_at_match[0][1] ?? null, $released_at_match[0][2] ?? null, 0, 0, 0)
+                        ->toDateTimeString();
+                } catch (Exception $e) {
+                    echo $e->getMessage();
+                }
+            }
 
             GameListModel::updateOrCreate(
                 [ 'appid' => $appid ],
@@ -211,7 +214,7 @@ class FetchGameList implements ShouldQueue
                     'steam_user_review_count'   =>  $steam_user_review_count ?? null,
                     'steam_user_review_score'   =>  $steam_user_review_score ?? null,
                     'steam_user_review_summary'  =>  $steam_user_review_summary,
-                    'released_at'  =>  $released_at,
+                    'released_at'  =>  $released_at ?? null,
                 ]
             );
 
