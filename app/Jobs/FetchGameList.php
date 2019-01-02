@@ -94,17 +94,17 @@ class FetchGameList implements ShouldQueue
 
                 $platforms_windows
                     = $chunk_platforms->windows
-                        ? 'windows'
+                        ? '|windows'
                         : null;
 
                 $platforms_linux
                     = $chunk_platforms->linux
-                        ? 'linux'
+                        ? '|linux'
                         : null;
 
                 $platforms_mac
                     = $chunk_platforms->linux
-                    ? 'mac'
+                    ? '|mac'
                     : null;
 
                 $platforms
