@@ -94,10 +94,10 @@ class FetchGameList implements ShouldQueue
                     = $item_data->short_description ?? null;
 
                 $chunk_languages
-                    = strtr($item_data->supported_languages,array(' '=>'')) ?? null;
+                    = strtr($item_data->supported_languages ?? null,array(' '=>'')) ?? null;
 
                 $languages
-                    = implode('|', explode(',', $chunk_languages)) ?? null;
+                    = implode('|', explode(',', $chunk_languages ?? null)) ?? null;
 
                 $chunk_platforms
                     = $item_data->platforms
