@@ -32,7 +32,7 @@ class CreateGameListsTable extends Migration
             $table->string('platforms')->nullable()->index();
             $table->string('developers')->nullable()->index();
             $table->string('publishers')->nullable()->index();
-            $table->timestamp('released_at')->nullable();
+            $table->string('released_at')->nullable()->index();
             $table->softDeletes();
             $table->timestamps();
         });
