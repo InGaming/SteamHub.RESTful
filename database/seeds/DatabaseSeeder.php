@@ -15,6 +15,7 @@ class DatabaseSeeder extends Seeder
             GameListsSeeder::class,
             GamePriceSeeder::class,
             GameTagsSeeder::class,
+            GameReviewsSeeder::class,
             DialogListsSeeder::class
         ]);
     }
