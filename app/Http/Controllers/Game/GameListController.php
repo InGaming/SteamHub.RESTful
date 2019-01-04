@@ -54,7 +54,7 @@ class GameListController extends Controller
 
         $query =
             $gameListModel
-                ->with('game_tags.tag')
+                ->with(['game_tags', 'game_prices'])
                 ->when($q, function ($query) use ($q, $text_field) {
                     return $query->where(function ($query) use ($q, $text_field) {
                         foreach ($text_field as $item) {
