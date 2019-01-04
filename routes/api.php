@@ -16,7 +16,8 @@ Route::group(['name' => 'api.', 'prefix' => 'v3', 'middleware' => 'api'], functi
         Route::apiResources([
             'list' => 'GameListController',
             'price' => 'GamePriceController',
-            'tag' => 'GameTagController'
+            'tag' => 'GameTagController',
+            'review' => 'GameReviewController'
         ]);
     });
 

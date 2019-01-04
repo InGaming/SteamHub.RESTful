@@ -19,4 +19,9 @@ class GameList extends Model
     {
         return $this->hasMany('App\Model\Game\GameTag', 'appid', 'appid');
     }
+
+    public function game_reviews()
+    {
+        return $this->hasMany('App\Model\Game\GameReview', 'appid', 'appid');
+    }
 }
