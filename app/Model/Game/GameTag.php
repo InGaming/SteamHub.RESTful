@@ -12,6 +12,6 @@ class GameTag extends Model
 
     public function game_list()
     {
-        return $this->belongsTo('App\Model\Game\GameList');
+        return $this->belongsTo('App\Model\Game\GameList','appid', 'appid');
     }
 }
