@@ -70,22 +70,26 @@ class GameListController extends Controller
                     return $query->whereFree($free);
                 })
                 ->when(!is_null($age), function ($query) use ($age) {
-                    return $query->whereAge($age);
+                    $array_score = array_map('intval', explode(',', $age));
+                    return $query->whereBetween('age', [$array_score[0], $array_score[1]]);
                 })
                 ->when($type, function ($query) use ($type) {
                     return $query->whereType($type);
                 })
                 ->when($metacritic_review_score, function ($query) use ($metacritic_review_score) {
-                    return $query->whereMetacriticReviewScore($metacritic_review_score);
+                    $array_score = array_map('intval', explode(',', $metacritic_review_score));
+                    return $query->whereBetween('metacritic_review_score', [$array_score[0], $array_score[1]]);
                 })
                 ->when($metacritic_review_link, function ($query) use ($metacritic_review_link) {
                     return $query->whereMetacriticReviewLink($metacritic_review_link);
                 })
                 ->when($steam_user_review_score, function ($query) use ($steam_user_review_score) {
-                    return $query->whereSteamUserReviewScore($steam_user_review_score);
+                    $array_score = array_map('intval', explode(',', $steam_user_review_score));
+                    return $query->whereBetween('steam_user_review_score', [$array_score[0], $array_score[1]]);
                 })
                 ->when($steam_user_review_count, function ($query) use ($steam_user_review_count) {
-                    return $query->whereSteamUserReviewCount($steam_user_review_count);
+                    $array_score = array_map('intval', explode(',', $steam_user_review_count));
+                    return $query->whereBetween('steam_user_review_count', [$array_score[0], $array_score[1]]);
                 })
                 ->when($steam_user_review_summary, function ($query) use ($steam_user_review_summary) {
                     return $query->whereSteamUserReviewSummary($steam_user_review_summary);
