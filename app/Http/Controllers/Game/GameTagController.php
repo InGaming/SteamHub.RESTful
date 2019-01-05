@@ -26,6 +26,7 @@ class GameTagController extends Controller
 
         $query =
             $gameTagModel
+                ->with(['game_list'])
                 ->when($q, function ($query) use ($q) {
                     return $query->where('tag', $q);
                 })

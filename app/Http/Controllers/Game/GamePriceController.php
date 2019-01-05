@@ -31,30 +31,32 @@ class GamePriceController extends Controller
         $simple_paginate = $request->simple_paginate;
 
         $query =
-            $gamePriceModel->when($appids, function ($query) use ($appids) {
-                $array_appids = array_map('intval', explode(',', $appids));
-                return $query->whereIn('appid', $array_appids);
-            })
-            ->when($country, function ($query) use ($country) {
-                return $query->whereCountry($country);
+            $gamePriceModel
+                ->with(['game_list'])
+                    ->when($appids, function ($query) use ($appids) {
+                    $array_appids = array_map('intval', explode(',', $appids));
+                    return $query->whereIn('appid', $array_appids);
                 })
-            ->when($final, function ($query) use ($final) {
-                return $query->whereFinal($final);
-            })
-            ->when($initial, function ($query) use ($initial) {
-                return $query->whereInitial($initial);
-            })
-            ->when($discount, function ($query) use ($discount) {
-                return $query->whereDiscount($discount);
-            })
-            ->when($order_field && $order, function ($query) use ($order_field, $order) {
-                return $query->orderBy($order_field, $order);
-            })
-            ->when($simple_paginate, function ($query) use ($length) {
-                return $query->simplePaginate ($length);
-            }, function ($query) use ($length) {
-                return $query->paginate($length);
-            });
+                ->when($country, function ($query) use ($country) {
+                    return $query->whereCountry($country);
+                    })
+                ->when($final, function ($query) use ($final) {
+                    return $query->whereFinal($final);
+                })
+                ->when($initial, function ($query) use ($initial) {
+                    return $query->whereInitial($initial);
+                })
+                ->when($discount, function ($query) use ($discount) {
+                    return $query->whereDiscount($discount);
+                })
+                ->when($order_field && $order, function ($query) use ($order_field, $order) {
+                    return $query->orderBy($order_field, $order);
+                })
+                ->when($simple_paginate, function ($query) use ($length) {
+                    return $query->simplePaginate ($length);
+                }, function ($query) use ($length) {
+                    return $query->paginate($length);
+                });
         $data = new GamePriceResources($query);
         return $data;
     }
