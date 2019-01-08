@@ -14,4 +14,14 @@ class GameHot extends Model
     {
         return $this->belongsTo('App\Model\Game\GameList','appid', 'appid');
     }
+
+    public function game_prices()
+    {
+        return $this->belongsToMany('App\Model\Game\GamePrice', 'appid', 'appid', 'appid');
+    }
+
+    public function game_tags()
+    {
+        return $this->belongsToMany('App\Model\Game\GameTag', 'appid', 'appid', 'appid');
+    }
 }
