@@ -21,6 +21,9 @@ class CreateGameListsTable extends Migration
             $table->string('type')->nullable()->index();
             $table->string('name')->index();
             $table->string('chinese_name')->nullable()->index();
+            $table->integer('price_final')->nullable()->index();
+            $table->integer('price_initial')->nullable()->index();
+            $table->integer('price_discount')->nullable()->index();
             $table->integer('metacritic_review_score')->nullable()->index();
             $table->string('metacritic_review_link')->nullable()->index();
             $table->integer('steam_user_review_score')->nullable()->index();
