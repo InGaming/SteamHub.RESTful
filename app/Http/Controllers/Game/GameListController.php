@@ -37,6 +37,9 @@ class GameListController extends Controller
         $free = $request->free;
         $age = $request->age;
         $type = $request->type;
+        $price_final = $request->price_final;
+        $price_initial = $request->price_initial;
+        $price_discount = $request->price_discount;
         $metacritic_review_score = $request->metacritic_review_score;
         $metacritic_review_link = $request->metacritic_review_link;
         $steam_user_review_score = $request->steam_user_review_score;
@@ -75,6 +78,18 @@ class GameListController extends Controller
                 })
                 ->when($type, function ($query) use ($type) {
                     return $query->whereType($type);
+                })
+                ->when($price_final, function ($query) use ($price_final) {
+                    $array_score = array_map('intval', explode(',', $price_final));
+                    return $query->whereBetween('price_final', [$array_score[0], $array_score[1]]);
+                })
+                ->when($price_initial, function ($query) use ($price_initial) {
+                    $array_score = array_map('intval', explode(',', $price_initial));
+                    return $query->whereBetween('price_initial', [$array_score[0], $array_score[1]]);
+                })
+                ->when($price_discount, function ($query) use ($price_discount) {
+                    $array_score = array_map('intval', explode(',', $price_discount));
+                    return $query->whereBetween('price_discount', [$array_score[0], $array_score[1]]);
                 })
                 ->when($metacritic_review_score, function ($query) use ($metacritic_review_score) {
                     $array_score = array_map('intval', explode(',', $metacritic_review_score));
