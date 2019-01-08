@@ -32,6 +32,7 @@ class GameHotController extends Controller
 
         $query =
             $GameHotModel
+                ->with(['game_list'])
                 ->when($appids, function ($query) use ($appids) {
                     $array_appids = array_map('intval', explode(',', $appids));
                     return $query->whereIn('appid', $array_appids);
