@@ -24,4 +24,9 @@ class GameHot extends Model
     {
         return $this->belongsToMany('App\Model\Game\GameTag', 'game_lists', 'appid', 'appid');
     }
+
+    public function game_reviews()
+    {
+        return $this->belongsToMany('App\Model\Game\GameReview', 'game_lists', 'appid', 'appid');
+    }
 }
