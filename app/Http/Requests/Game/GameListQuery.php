@@ -44,7 +44,7 @@ class GameListQuery extends FormRequest
             'length' => 'filled|numeric|min:1|max:100',
             'simple_paginate' => 'filled|boolean',
             'order' => 'required_with:order_field|alpha|in:asc,desc',
-            'order_field' => 'required_with:order|alpha_dash|in:age,metacritic_review_score,steam_user_review_score,steam_user_review_count,released_at,created_at,updated_at'
+            'order_field' => 'required_with:order|alpha_dash|in:age,price_final,price_initial,price_discount,metacritic_review_score,steam_user_review_score,steam_user_review_count,released_at,created_at,updated_at'
         ];
     }
 }
