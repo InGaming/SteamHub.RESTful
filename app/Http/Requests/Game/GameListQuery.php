@@ -27,12 +27,15 @@ class GameListQuery extends FormRequest
             'q' => 'filled|string',
             'appids' => 'filled|string',
             'free' => 'filled|boolean',
-            'age' => 'filled|numeric|min:0|max:100',
+            'age' => 'filled|string',
             'type'  =>  'filled|string',
-            'metacritic_review_score' => 'filled|numeric|min:1|max:100',
+            'price_final' => 'filled|string',
+            'price_initial' => 'filled|string',
+            'price_discount' => 'filled|string',
+            'metacritic_review_score' => 'filled|string',
             'metacritic_review_link'  => 'filled|url',
-            'steam_user_review_score' => 'filled|numeric|min:1|max:100',
-            'steam_user_review_count' => 'filled|numeric|min:1',
+            'steam_user_review_score' => 'filled|string',
+            'steam_user_review_count' => 'filled|string',
             'steam_user_review_summary' => 'filled|string',
             'language' =>  'filled|string',
             'platform' => 'filled|alpha|in:windows,linux,mac',
@@ -41,7 +44,7 @@ class GameListQuery extends FormRequest
             'length' => 'filled|numeric|min:1|max:100',
             'simple_paginate' => 'filled|boolean',
             'order' => 'required_with:order_field|alpha|in:asc,desc',
-            'order_field' => 'required_with:order|alpha_dash|in:age,metacritic_review_score,steam_user_review_score,steam_user_review_count,released_at,created_at,updated_at'
+            'order_field' => 'required_with:order|alpha_dash|in:age,price_final,price_initial,price_discount,metacritic_review_score,steam_user_review_score,steam_user_review_count,released_at,created_at,updated_at'
         ];
     }
 }
