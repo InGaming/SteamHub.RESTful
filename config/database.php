@@ -52,8 +52,12 @@ return [
             'collation' => 'utf8mb4_unicode_ci',
             'prefix' => '',
             'prefix_indexes' => true,
-            'strict' => true,
+            'strict' => false,
             'engine' => null,
+            'options'   => [
+                // 开启持久连接
+                \PDO::ATTR_PERSISTENT => true,
+            ],
         ],
 
         'mysql_2' => [
@@ -133,6 +137,7 @@ return [
             'password' => env('REDIS_PASSWORD', null),
             'port' => env('REDIS_PORT', 6379),
             'database' => env('REDIS_DB', 0),
+            'persistent' => true,
         ],
 
         'cache' => [
@@ -140,6 +145,7 @@ return [
             'password' => env('REDIS_PASSWORD', null),
             'port' => env('REDIS_PORT', 6379),
             'database' => env('REDIS_CACHE_DB', 1),
+            'persistent' => true,
         ],
 
     ],
